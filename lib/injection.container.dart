@@ -12,6 +12,11 @@ import 'package:refactor/features/auth/domain/repositories/auth_repository.dart'
 import 'package:refactor/features/auth/domain/usecases/user_login.dart';
 import 'package:refactor/features/auth/domain/usecases/user_register.dart';
 import 'package:refactor/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:refactor/features/home/data/datasources/home_remote_data_source.dart';
+import 'package:refactor/features/home/data/repositories/home_repository_impl.dart';
+import 'package:refactor/features/home/domain/repositories/home_repository.dart';
+import 'package:refactor/features/home/domain/usecases/get_home.dart';
+import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
@@ -22,11 +27,14 @@ Future<void> init() async {
   //blocs
   //auth bloc
   sl.registerFactory(() => AuthCubit(userLogin: sl(), userRegister: sl()));
+  sl.registerFactory(() => HomeCubit(getHome: sl()));
 
   //use cases
   //auth usecases
   sl.registerLazySingleton(() => UserLogin(authRepository: sl()));
   sl.registerLazySingleton(() => UserRegister(authRepository: sl()));
+  //home usecase
+  sl.registerLazySingleton(() => GetHome(homeRepository: sl()));
 
   //repository
   //auth repositories
@@ -34,6 +42,11 @@ Future<void> init() async {
         netWorkInfo: sl(),
         authRemoteDataSource: sl(),
         authLocalDataSource: sl(),
+      ));
+  // home repositories
+  sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(
+        netWorkInfo: sl(),
+        homeRemoteDataSource: sl(),
       ));
 
   // Data Source
@@ -43,6 +56,9 @@ Future<void> init() async {
       ));
   sl.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(apiConsumer: sl()));
+  //home data source
+  sl.registerLazySingleton<HomeRemoteDataSource>(
+      () => HomeRemoteDataSourceImpl(apiConsumer: sl()));
 
   // core
   sl.registerLazySingleton<NetWorkInfo>(

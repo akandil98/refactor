@@ -7,7 +7,6 @@ import 'package:refactor/config/routes/app_routes.dart';
 import 'package:refactor/core/utils/app_colors.dart';
 import 'package:refactor/core/utils/app_strings.dart';
 import 'package:refactor/core/utils/constants.dart';
-import 'package:refactor/core/widgets/error_screen.dart';
 import 'package:refactor/extentions/if_debugging.dart';
 import 'package:refactor/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:refactor/features/auth/presentation/widgets/default_button.dart';
@@ -102,7 +101,7 @@ class LoginScreen extends HookWidget {
                             SizedBox(height: 20.h),
                             DefaultButton(
                               onPressed: () {
-                                Navigator.pushNamed(
+                                Navigator.pushReplacementNamed(
                                     context, Routes.registerRoute);
                               },
                               child: const Text(

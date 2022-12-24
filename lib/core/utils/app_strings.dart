@@ -40,4 +40,11 @@ class AppStrings {
   static const String pleaseEnterYourEmailAddress =
       'please enter your email address';
   static const String passwordIsTooShort = 'password is too short';
+
+  //home layout
+  static const String welcome = 'Welcome';
+  static const String products = 'Products';
+  static const String categories = 'Categories';
+  static const String favourite = 'Favourite';
+  static const String settings = 'Settings';
 }

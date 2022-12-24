@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:refactor/core/utils/app_colors.dart';
 
 class DefaultButton extends StatelessWidget {
   final String? text;
@@ -18,7 +17,7 @@ class DefaultButton extends StatelessWidget {
     this.text,
     this.child,
     required this.onPressed,
-    this.color = AppColors.primary,
+    this.color = Colors.black,
     this.textColor = Colors.white,
     this.width = double.infinity,
     this.height = 40,

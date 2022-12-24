@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:refactor/core/utils/app_colors.dart';
 
 class DefaultTextFormField extends StatelessWidget {
   final TextEditingController controller;
@@ -19,7 +18,7 @@ class DefaultTextFormField extends StatelessWidget {
     Key? key,
     required this.controller,
     this.label,
-    this.height = 50,
+    this.height = 40,
     this.width = double.infinity,
     this.textInputType,
     this.isPassword = false,
@@ -37,6 +36,7 @@ class DefaultTextFormField extends StatelessWidget {
       width: width,
       height: height!.h,
       child: TextFormField(
+        cursorColor: Colors.black,
         controller: controller,
         keyboardType: textInputType,
         validator: validator,
@@ -44,13 +44,16 @@ class DefaultTextFormField extends StatelessWidget {
         style: TextStyle(
           fontSize: 16.sp,
           fontWeight: FontWeight.bold,
-          color: AppColors.primary,
+          color: Colors.black,
         ),
         decoration: InputDecoration(
+          prefixIcon: prefix,
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black)),
+          labelStyle: const TextStyle(color: Colors.black),
           contentPadding: const EdgeInsets.all(10),
           labelText: label,
-          prefix: prefix,
-          suffix: suffix != null
+          suffixIcon: suffix != null
               ? IconButton(
                   onPressed: () {
                     suffixPressed!();

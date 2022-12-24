@@ -8,3 +8,17 @@ abstract class HomeState extends Equatable {
 }
 
 class HomeInitial extends HomeState {}
+
+class ChangeBottomNavState extends HomeState {}
+
+class HomeIsLoading extends HomeState {}
+
+class HomeLoadedSuccess extends HomeState {}
+
+class HomeError extends HomeState {
+  final String msg;
+
+  const HomeError({required this.msg});
+  @override
+  List<Object> get props => [msg];
+}
