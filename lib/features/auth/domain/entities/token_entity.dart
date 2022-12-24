@@ -1,14 +1,17 @@
 import 'package:equatable/equatable.dart';
+import 'package:refactor/features/auth/domain/entities/user_entity.dart';
 
 class TokenEntity extends Equatable {
-  // TODO fix this String?
-  final String? token;
+  final String token;
+  Data? data;
 
-  const TokenEntity({required this.token});
+  TokenEntity({
+    required this.token,
+  });
 
   factory TokenEntity.fromJson(Map<String, dynamic> json) {
     return TokenEntity(
-      token: json['token'],
+      token: Data.fromJson(json['data']).token,
     );
   }
 

@@ -14,8 +14,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   AuthLocalDataSourceImpl({required this.sharedPreferences});
   @override
   Future<void> cacheToken(TokenEntity token) {
-    // TODO fix this ?? ''
-    return sharedPreferences.setString('token', token.token ?? '');
+    return sharedPreferences.setString('token', token.token);
   }
 
   @override
