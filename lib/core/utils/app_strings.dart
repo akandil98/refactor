@@ -27,9 +27,13 @@ class AppStrings {
   static const String alreadyRegisteredLoginHere =
       'Already registered? Log in here!';
   static const String name = 'Name';
-  static const String phone = 'Phone.';
-
+  static const String phone = 'Phone';
+  static const String pleaseEnterYourName = 'please enter your name';
+  static const String pleaseEnterYourPhone = 'please enter your phone';
   //login & register
   static const String email = 'Email';
   static const String password = 'Password';
+  static const String pleaseEnterYourEmailAddress =
+      'please enter your email address';
+  static const String passwordIsTooShort = 'password is too short';
 }

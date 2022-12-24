@@ -1,3 +1,5 @@
+import 'package:refactor/core/api/api_consumer.dart';
+import 'package:refactor/core/api/end_points.dart';
 import 'package:refactor/features/auth/domain/entities/token_entity.dart';
 import 'package:refactor/features/auth/domain/entities/user_entity.dart';
 import 'package:refactor/features/auth/domain/usecases/user_login.dart';
@@ -9,15 +11,32 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  ApiConsumer apiConsumer;
+
+  AuthRemoteDataSourceImpl({required this.apiConsumer});
   @override
-  Future<TokenEntity> userLogin(UserLoginParams params) {
-    // TODO: implement userLogin
-    throw UnimplementedError();
+  Future<TokenEntity> userLogin(UserLoginParams params) async {
+    final response = await apiConsumer.post(
+      EndPoints.login,
+      body: {
+        'email': params.email,
+        'password': params.password,
+      },
+    );
+    return TokenEntity.fromJson(response);
   }
 
   @override
-  Future<UserEntity> userRegister(UserRegisterParams params) {
-    // TODO: implement userRegister
-    throw UnimplementedError();
+  Future<UserEntity> userRegister(UserRegisterParams params) async {
+    final response = await apiConsumer.post(
+      EndPoints.register,
+      body: {
+        'name': params.name,
+        'email': params.email,
+        'password': params.password,
+        'phone': params.phone,
+      },
+    );
+    return UserEntity.fromJson(response);
   }
 }

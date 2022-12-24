@@ -11,43 +11,57 @@ class DefaultTextFormField extends StatelessWidget {
   final bool? isPassword;
   final String? Function(String?)? validator;
   final Widget? prefix;
-  final Widget? suffix;
+  final IconData? suffix;
+  final Function? suffixPressed;
   final bool? isClickable;
   final bool? isReadOnly;
   const DefaultTextFormField({
     Key? key,
     required this.controller,
     this.label,
-    this.height = 40,
+    this.height = 50,
     this.width = double.infinity,
     this.textInputType,
     this.isPassword = false,
     this.validator,
     this.prefix,
     this.suffix,
+    this.suffixPressed,
     this.isClickable = true,
     this.isReadOnly = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: textInputType,
-      validator: validator,
-      obscureText: isPassword!,
-      style: TextStyle(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.bold,
-        color: AppColors.primary,
+    return SizedBox(
+      width: width,
+      height: height!.h,
+      child: TextFormField(
+        controller: controller,
+        keyboardType: textInputType,
+        validator: validator,
+        obscureText: isPassword!,
+        style: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.bold,
+          color: AppColors.primary,
+        ),
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(10),
+          labelText: label,
+          prefix: prefix,
+          suffix: suffix != null
+              ? IconButton(
+                  onPressed: () {
+                    suffixPressed!();
+                  },
+                  icon: Icon(suffix),
+                )
+              : null,
+          border: const OutlineInputBorder(),
+        ),
+        readOnly: isReadOnly!,
       ),
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: prefix,
-        suffixIcon: suffix,
-        border: const OutlineInputBorder(),
-      ),
-      readOnly: isReadOnly!,
     );
   }
 }

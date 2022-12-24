@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class TokenEntity extends Equatable {
-  final String token;
+  // TODO fix this String?
+  final String? token;
 
   const TokenEntity({required this.token});
 
