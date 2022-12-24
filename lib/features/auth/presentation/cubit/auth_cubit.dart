@@ -20,6 +20,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
+    emit(AuthIsLoading());
     Either<Failure, TokenEntity> response = await userLogin(UserLoginParams(
       email: email,
       password: password,
@@ -36,6 +37,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String password,
     required String phone,
   }) async {
+    emit(AuthIsLoading());
     Either<Failure, UserEntity> response =
         await userRegister(UserRegisterParams(
       name: name,

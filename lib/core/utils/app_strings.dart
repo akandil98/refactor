@@ -17,13 +17,17 @@ class AppStrings {
   static const String pleaseTryAgain = 'Please Try Again';
   static const String reloadScreen = 'Reload Screen';
 
+  //token
+  static const String token = '';
   //login
   static const String login = 'Log in';
   static const String notRegisteredYetRegisterHere =
       'Not registered yet? Register here!';
+  static const String loggedInSuccessfully = 'Logged in successfully';
 
   //register
   static const String register = 'Register';
+  static const String registeredSuccessfully = 'Registered Successfully';
   static const String alreadyRegisteredLoginHere =
       'Already registered? Log in here!';
   static const String name = 'Name';
