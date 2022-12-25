@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:refactor/core/utils/app_strings.dart';
+import 'package:refactor/injection.container.dart' as di;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppInterceptors extends Interceptor {
   @override
@@ -8,7 +10,15 @@ class AppInterceptors extends Interceptor {
     if (kDebugMode) {
       print('REQUEST[${options.method}] => PATH: ${options.path}');
     }
-    options.headers[AppStrings.contentType] = AppStrings.applicationJson;
+    //headers
+    // Content-Type : application/json
+    // Authorization : token
+    options
+      ..headers[AppStrings.contentType] = AppStrings.applicationJson
+      ..headers[AppStrings.lang] = AppStrings.en
+      ..headers[AppStrings.authorization] =
+          di.sl<SharedPreferences>().getString(AppStrings.token) ?? '';
+
     super.onRequest(options, handler);
   }
 

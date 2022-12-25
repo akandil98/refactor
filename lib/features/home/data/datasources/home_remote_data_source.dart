@@ -1,9 +1,11 @@
 import 'package:refactor/core/api/api_consumer.dart';
 import 'package:refactor/core/api/end_points.dart';
-import 'package:refactor/features/home/domain/entities/home_entity.dart';
+import 'package:refactor/features/home/domain/entities/category_entity.dart';
+import 'package:refactor/features/home/domain/entities/product_entity.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<HomeEntity> getHome();
+  Future<ProductEntity> getProduct();
+  Future<CategoryEntity> getCategory();
 }
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
@@ -12,8 +14,14 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   HomeRemoteDataSourceImpl({required this.apiConsumer});
 
   @override
-  Future<HomeEntity> getHome() async {
+  Future<ProductEntity> getProduct() async {
     final response = await apiConsumer.get(EndPoints.home);
-    return HomeEntity.fromJson(response);
+    return ProductEntity.fromJson(response);
+  }
+
+  @override
+  Future<CategoryEntity> getCategory() async {
+    final response = await apiConsumer.get(EndPoints.categories);
+    return CategoryEntity.fromJson(response);
   }
 }

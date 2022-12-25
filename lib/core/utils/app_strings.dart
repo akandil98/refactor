@@ -6,8 +6,13 @@ class AppStrings {
 
   static const String cachedRandomQuote = 'CACHED_RANDOM_QUOTE';
 
+  //api interceptors Headers onRequest
   static const String contentType = 'Content-Type';
   static const String applicationJson = 'application/json';
+  static const String lang = 'lang';
+  static const String en = 'en';
+  static const String authorization = 'Authorization';
+  static const String token = 'token';
 
   static const String serverFailure = 'Server Failure';
   static const String cacheFailure = 'Cache Failure';
@@ -17,8 +22,6 @@ class AppStrings {
   static const String pleaseTryAgain = 'Please Try Again';
   static const String reloadScreen = 'Reload Screen';
 
-  //token
-  static const String token = '';
   //login
   static const String login = 'Log in';
   static const String notRegisteredYetRegisterHere =
@@ -47,4 +50,11 @@ class AppStrings {
   static const String categories = 'Categories';
   static const String favourite = 'Favourite';
   static const String settings = 'Settings';
+
+  //product_item widget
+  static const String discount = 'DISCOUNT';
+  static const String egp = 'EGP';
+
+  //products_screen_content widget
+  static const String newProducts = 'New Products';
 }

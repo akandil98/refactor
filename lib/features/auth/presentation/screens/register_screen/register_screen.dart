@@ -48,7 +48,7 @@ class RegisterScreen extends HookWidget {
           body: state is AuthIsLoading
               ? const Center(
                   child: SpinKitFadingCircle(
-                    color: AppColors.primary,
+                    color: AppColors.hint,
                   ),
                 )
               : Center(

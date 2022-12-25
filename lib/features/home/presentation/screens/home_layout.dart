@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:refactor/core/utils/app_colors.dart';
 import 'package:refactor/core/utils/app_strings.dart';
 import 'package:refactor/core/utils/constants.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
+import 'package:refactor/features/home/presentation/screens/categories_screen.dart';
+import 'package:refactor/features/home/presentation/screens/favorites_screen.dart';
+import 'package:refactor/features/home/presentation/screens/products_screen.dart';
+import 'package:refactor/features/home/presentation/screens/settings_screen.dart';
 
 class HomeLayout extends StatelessWidget {
   const HomeLayout({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> bottomScreens = [
+      const ProductsScreen(),
+      const CategoriesScreen(),
+      const FavoritesScreen(),
+      const SettingsScreen(),
+    ];
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {
-        if (state is HomeLoadedSuccess) {
+        if (state is HomeLoaded) {
           Constants.showToast(msg: AppStrings.welcome);
         }
         if (state is HomeError) {
@@ -22,6 +30,7 @@ class HomeLayout extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
+          drawer: const Drawer(),
           appBar: AppBar(
             title: const Text(AppStrings.appName),
             actions: [
@@ -36,15 +45,7 @@ class HomeLayout extends StatelessWidget {
               ),
             ],
           ),
-          body: state is HomeIsLoading
-              ? const Center(
-                  child: SpinKitFadingCircle(
-                    color: AppColors.primary,
-                  ),
-                )
-              : context
-                  .read<HomeCubit>()
-                  .bottomScreens[context.read<HomeCubit>().currentIndex],
+          body: bottomScreens[context.read<HomeCubit>().currentIndex],
           bottomNavigationBar: BottomNavigationBar(
               onTap: (index) {
                 context.read<HomeCubit>().changeBottom(index);

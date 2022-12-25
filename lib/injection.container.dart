@@ -15,7 +15,8 @@ import 'package:refactor/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:refactor/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:refactor/features/home/data/repositories/home_repository_impl.dart';
 import 'package:refactor/features/home/domain/repositories/home_repository.dart';
-import 'package:refactor/features/home/domain/usecases/get_home.dart';
+import 'package:refactor/features/home/domain/usecases/get_category.dart';
+import 'package:refactor/features/home/domain/usecases/get_product.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,14 +28,15 @@ Future<void> init() async {
   //blocs
   //auth bloc
   sl.registerFactory(() => AuthCubit(userLogin: sl(), userRegister: sl()));
-  sl.registerFactory(() => HomeCubit(getHome: sl()));
+  sl.registerFactory(() => HomeCubit(getProduct: sl(), getCategory: sl()));
 
   //use cases
   //auth usecases
   sl.registerLazySingleton(() => UserLogin(authRepository: sl()));
   sl.registerLazySingleton(() => UserRegister(authRepository: sl()));
   //home usecase
-  sl.registerLazySingleton(() => GetHome(homeRepository: sl()));
+  sl.registerLazySingleton(() => GetProduct(homeRepository: sl()));
+  sl.registerLazySingleton(() => GetCategory(homeRepository: sl()));
 
   //repository
   //auth repositories
