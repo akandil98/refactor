@@ -6,7 +6,6 @@ import 'package:refactor/features/auth/presentation/screens/login_screen/login_s
 import 'package:refactor/features/auth/presentation/screens/register_screen/register_screen.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/features/home/presentation/screens/home_layout.dart';
-import 'package:refactor/features/home/presentation/screens/products_screen.dart';
 import 'package:refactor/features/splash/presentation/screens/splash_screen.dart';
 import 'package:refactor/injection.container.dart' as di;
 
@@ -43,7 +42,11 @@ class AppRoutes {
       case Routes.homeRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => di.sl<HomeCubit>()..getHomeData(),
+            create: (context) => di.sl<HomeCubit>()
+              ..getHomeData()
+              ..getCategoryData()
+              ..getFavouriteData()
+              ..getCategoryData(),
             child: const HomeLayout(),
           ),
         );

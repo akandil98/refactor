@@ -21,9 +21,6 @@ class HomeLayout extends StatelessWidget {
     ];
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {
-        if (state is HomeLoaded) {
-          Constants.showToast(msg: AppStrings.welcome);
-        }
         if (state is HomeError) {
           Constants.showErrorDialog(context: context, msg: state.msg);
         }

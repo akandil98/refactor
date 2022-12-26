@@ -87,11 +87,16 @@ class ProductItem extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        // ShopCubit.get(context).changeFavorites(model.id!);
+                        cubit.changeFavouriteData(
+                            productId: cubit.products[index].id);
                       },
                       icon: CircleAvatar(
                         radius: 15.0.r,
-                        backgroundColor: Colors.grey,
+
+                        backgroundColor:
+                            cubit.isFavorite[cubit.products[index].id]!
+                                ? Colors.blue
+                                : Colors.grey,
                         // (ShopCubit.get(context).favorites![model.id]!)
                         //     ? defaultColor
                         //     :

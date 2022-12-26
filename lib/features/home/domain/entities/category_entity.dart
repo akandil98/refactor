@@ -1,10 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'dart:convert';
-
-CategoryEntity categoryEntityFromJson(String str) =>
-    CategoryEntity.fromJson(json.decode(str));
-
-String categoryEntityToJson(CategoryEntity data) => json.encode(data.toJson());
 
 class CategoryEntity extends Equatable {
   final bool status;

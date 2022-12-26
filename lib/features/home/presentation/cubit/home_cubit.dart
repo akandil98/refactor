@@ -4,8 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:refactor/core/error/failures.dart';
 import 'package:refactor/core/usecases/usecase.dart';
 import 'package:refactor/features/home/domain/entities/category_entity.dart';
+import 'package:refactor/features/home/domain/entities/change_favourite_entity.dart';
+import 'package:refactor/features/home/domain/entities/favourite_entity.dart';
 import 'package:refactor/features/home/domain/entities/product_entity.dart';
+import 'package:refactor/features/home/domain/usecases/change_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_category.dart';
+import 'package:refactor/features/home/domain/usecases/get_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_product.dart';
 
 part 'home_state.dart';
@@ -13,9 +17,13 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final GetProduct getProduct;
   final GetCategory getCategory;
+  final GetFavourite getFavourite;
+  final ChangeFavourite changeFavourite;
   HomeCubit({
     required this.getProduct,
     required this.getCategory,
+    required this.getFavourite,
+    required this.changeFavourite,
   }) : super(HomeInitial());
 
   int currentIndex = 0;
@@ -26,7 +34,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(ChangeBottomNavState());
   }
 
-  Map<int, bool>? favorites = {};
+  Map<int, bool> isFavorite = {};
 
   List<Product> products = [];
   List<Banner> banners = [];
@@ -35,17 +43,18 @@ class HomeCubit extends Cubit<HomeState> {
     emit(ProductIsLoading());
     Either<Failure, ProductEntity> response = await getProduct(NoParams());
 
-    response.fold((failure) => emit(HomeError(msg: mapFailureToMsg(failure))),
-        (productEntity) {
+    response
+        .fold((failure) => emit(ProductError(msg: mapFailureToMsg(failure))),
+            (productEntity) {
       for (var element in productEntity.data.products) {
-        favorites?.addAll({
+        isFavorite.addAll({
           element.id: element.inFavorites,
         });
       }
 
       products = productEntity.data.products;
       banners = productEntity.data.banners;
-      emit(ProductLoadedSuccess(productEntity: productEntity));
+      emit(ProductLoaded(productEntity: productEntity));
     });
   }
 
@@ -55,10 +64,11 @@ class HomeCubit extends Cubit<HomeState> {
     emit(CategoryIsLoading());
     Either<Failure, CategoryEntity> response = await getCategory(NoParams());
 
-    response.fold((failure) => emit(HomeError(msg: mapFailureToMsg(failure))),
-        (categoryEntity) {
+    response
+        .fold((failure) => emit(CategoryError(msg: mapFailureToMsg(failure))),
+            (categoryEntity) {
       categories = categoryEntity.data.data;
-      emit(CategoryLoadedSuccess(categoryEntity: categoryEntity));
+      emit(CategoryLoaded(categoryEntity: categoryEntity));
     });
   }
 
@@ -66,9 +76,41 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeIsLoading());
     await getProductData();
     await getCategoryData();
-    emit(HomeLoaded(
-        // productEntity: pr,
-        // categoryEntity: ce,
-        ));
+    emit(HomeLoaded());
+  }
+
+  List<Favourite> favourites = [];
+  Future<void> getFavouriteData() async {
+    emit(FavouriteIsLoading());
+    Either<Failure, FavouriteEntity> response = await getFavourite(NoParams());
+    response
+        .fold((failure) => emit(FavouriteError(msg: mapFailureToMsg(failure))),
+            (favouriteEntity) {
+      favourites = favouriteEntity.data.data;
+      emit(FavouriteLoaded(favouriteEntity: favouriteEntity));
+    });
+  }
+
+  Future<void> changeFavouriteData({required int productId}) async {
+    isFavorite[productId] = !isFavorite[productId]!;
+    emit(ChangeFavouriteState());
+    Either<Failure, ChangeFavouriteEntity> response =
+        await changeFavourite(ChangeFavouriteParams(productId: productId));
+    response.fold((failure) {
+      isFavorite[productId] = !isFavorite[productId]!;
+      emit(ChangeFavouriteError(msg: mapFailureToMsg(failure)));
+    }, (changeFavouriteEntity) {
+      if (!changeFavouriteEntity.status) {
+        isFavorite[productId] = !isFavorite[productId]!;
+      } else {
+        getFavouriteData();
+        // emit(ChangeFavouriteLoaded(
+        //     changefavouriteEntity: changeFavouriteEntity));
+        //  emit(HomeLoaded());
+      }
+
+      emit(ChangeFavouriteLoaded(changefavouriteEntity: changeFavouriteEntity));
+      emit(HomeLoaded());
+    });
   }
 }

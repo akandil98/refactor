@@ -16,11 +16,11 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   _getHomeData() => BlocProvider.of<HomeCubit>(context).getHomeData();
 
-  @override
-  void initState() {
-    super.initState();
-    _getHomeData();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _getHomeData();
+  // }
 
   Widget _buildBodyContent() {
     return BlocBuilder<HomeCubit, HomeState>(
@@ -36,11 +36,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
         } else if (state is HomeLoaded) {
           return const ProductsScreenContent();
         } else {
-          return const Center(
-            child: SpinKitFadingCircle(
-              color: AppColors.hint,
-            ),
-          );
+          return const ProductsScreenContent();
+          // return const Center(
+          //   child: SpinKitFadingCircle(
+          //     color: AppColors.hint,
+          //   ),
+          // );
         }
       },
     );

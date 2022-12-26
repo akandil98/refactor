@@ -25,10 +25,10 @@ class AuthCubit extends Cubit<AuthState> {
       email: email,
       password: password,
     ));
-    emit(response.fold(
-      (failure) => AuthError(msg: mapFailureToMsg(failure)),
-      (token) => AuthLoginSuccess(tokenEntity: token),
-    ));
+    response.fold(
+      (failure) => emit(AuthError(msg: mapFailureToMsg(failure))),
+      (token) => emit(AuthLoginSuccess(tokenEntity: token)),
+    );
   }
 
   Future<void> register({
@@ -45,10 +45,10 @@ class AuthCubit extends Cubit<AuthState> {
       password: password,
       phone: phone,
     ));
-    emit(response.fold(
-      (failure) => AuthError(msg: mapFailureToMsg(failure)),
-      (user) => AuthRegisterSuccess(userEntity: user),
-    ));
+    response.fold(
+      (failure) => emit(AuthError(msg: mapFailureToMsg(failure))),
+      (user) => emit(AuthRegisterSuccess(userEntity: user)),
+    );
   }
 
   IconData suffix = Icons.visibility_outlined;
