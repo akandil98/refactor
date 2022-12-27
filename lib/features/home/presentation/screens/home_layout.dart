@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:refactor/config/routes/app_routes.dart';
 import 'package:refactor/core/utils/app_strings.dart';
 import 'package:refactor/core/utils/constants.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
@@ -7,12 +8,15 @@ import 'package:refactor/features/home/presentation/screens/categories_screen.da
 import 'package:refactor/features/home/presentation/screens/favorites_screen.dart';
 import 'package:refactor/features/home/presentation/screens/products_screen.dart';
 import 'package:refactor/features/home/presentation/screens/settings_screen.dart';
+import 'package:refactor/injection.container.dart' as di;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeLayout extends StatelessWidget {
   const HomeLayout({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final sharedPreferences = di.sl<SharedPreferences>();
     final List<Widget> bottomScreens = [
       const ProductsScreen(),
       const CategoriesScreen(),
@@ -37,7 +41,10 @@ class HomeLayout extends StatelessWidget {
                     Icons.search,
                   )),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  sharedPreferences.remove(AppStrings.token);
+                  Navigator.pushReplacementNamed(context, Routes.loginRoute);
+                },
                 icon: const Icon(Icons.logout),
               ),
             ],

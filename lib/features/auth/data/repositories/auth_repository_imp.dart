@@ -25,7 +25,7 @@ class AuthRepositoryImp implements AuthRepository {
     if (await netWorkInfo.isConnected) {
       try {
         final remoteToken = await authRemoteDataSource.userLogin(params);
-        // caching token
+        // caching token after login
         authLocalDataSource.cacheToken(remoteToken);
         return Right(remoteToken);
       } on ServerException {
@@ -42,6 +42,7 @@ class AuthRepositoryImp implements AuthRepository {
     if (await netWorkInfo.isConnected) {
       try {
         final remoteUser = await authRemoteDataSource.userRegister(params);
+
         return Right(remoteUser);
       } on ServerException {
         return Left(ServerFailure());
