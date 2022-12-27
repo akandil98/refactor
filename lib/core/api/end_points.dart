@@ -5,4 +5,6 @@ class EndPoints {
   static const String home = '${baseUrl}home';
   static const String categories = '${baseUrl}categories';
   static const String favourites = '${baseUrl}favorites';
+  static const String profile = '${baseUrl}profile';
+  static const String updateProfile = '${baseUrl}update-profile';
 }

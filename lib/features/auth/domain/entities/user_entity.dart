@@ -2,28 +2,25 @@ import 'package:equatable/equatable.dart';
 
 class UserEntity extends Equatable {
   final bool status;
-  final String message;
+
   final Data data;
   const UserEntity({
     required this.status,
-    required this.message,
     required this.data,
   });
 
   factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
         status: json['status'],
-        message: json['message'],
         data: Data.fromJson(json['data']),
       );
 
   Map<String, dynamic> toJson() => {
         'status': status,
-        'message': message,
         'data': data.toJson(),
       };
 
   @override
-  List<Object?> get props => [status, message, data];
+  List<Object?> get props => [status, data];
 }
 
 class Data {

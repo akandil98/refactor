@@ -1,5 +1,6 @@
 import 'package:refactor/core/api/api_consumer.dart';
 import 'package:refactor/core/api/end_points.dart';
+import 'package:refactor/features/auth/domain/entities/user_entity.dart';
 import 'package:refactor/features/home/domain/entities/category_entity.dart';
 import 'package:refactor/features/home/domain/entities/change_favourite_entity.dart';
 import 'package:refactor/features/home/domain/entities/favourite_entity.dart';
@@ -11,6 +12,7 @@ abstract class HomeRemoteDataSource {
   Future<CategoryEntity> getCategory();
   Future<FavouriteEntity> getFavourite();
   Future<ChangeFavouriteEntity> changeFavourite(ChangeFavouriteParams params);
+  Future<UserEntity> getUser();
 }
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
@@ -46,5 +48,13 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       },
     );
     return ChangeFavouriteEntity.fromJson(response);
+  }
+
+  @override
+  Future<UserEntity> getUser() async {
+    final response = await apiConsumer.get(
+      EndPoints.profile,
+    );
+    return UserEntity.fromJson(response);
   }
 }

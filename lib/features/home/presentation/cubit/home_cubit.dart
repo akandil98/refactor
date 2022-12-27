@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:refactor/core/error/failures.dart';
 import 'package:refactor/core/usecases/usecase.dart';
+import 'package:refactor/features/auth/domain/entities/user_entity.dart';
 import 'package:refactor/features/home/domain/entities/category_entity.dart';
 import 'package:refactor/features/home/domain/entities/change_favourite_entity.dart';
 import 'package:refactor/features/home/domain/entities/favourite_entity.dart';
@@ -11,6 +12,7 @@ import 'package:refactor/features/home/domain/usecases/change_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_category.dart';
 import 'package:refactor/features/home/domain/usecases/get_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_product.dart';
+import 'package:refactor/features/home/domain/usecases/get_user.dart';
 
 part 'home_state.dart';
 
@@ -19,11 +21,13 @@ class HomeCubit extends Cubit<HomeState> {
   final GetCategory getCategory;
   final GetFavourite getFavourite;
   final ChangeFavourite changeFavourite;
+  final GetUser getUser;
   HomeCubit({
     required this.getProduct,
     required this.getCategory,
     required this.getFavourite,
     required this.changeFavourite,
+    required this.getUser,
   }) : super(HomeInitial());
 
   int currentIndex = 0;
@@ -112,5 +116,17 @@ class HomeCubit extends Cubit<HomeState> {
       emit(ChangeFavouriteLoaded(changefavouriteEntity: changeFavouriteEntity));
       emit(HomeLoaded());
     });
+  }
+
+  //get user data
+
+  Future<void> getUserData() async {
+    emit(SettingsIsLoading());
+    Either<Failure, UserEntity> response = await getUser(NoParams());
+
+    response.fold(
+      (failure) => emit(SettingsError(msg: mapFailureToMsg(failure))),
+      (userEntity) => emit(SettingsLoaded(userEntity: userEntity)),
+    );
   }
 }

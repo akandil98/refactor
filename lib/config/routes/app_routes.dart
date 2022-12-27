@@ -46,7 +46,8 @@ class AppRoutes {
               ..getHomeData()
               ..getCategoryData()
               ..getFavouriteData()
-              ..getCategoryData(),
+              ..getCategoryData()
+              ..getUserData(),
             child: const HomeLayout(),
           ),
         );

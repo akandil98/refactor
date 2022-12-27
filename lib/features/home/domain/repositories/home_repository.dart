@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:refactor/core/error/failures.dart';
+import 'package:refactor/features/auth/domain/entities/user_entity.dart';
 import 'package:refactor/features/home/domain/entities/category_entity.dart';
 import 'package:refactor/features/home/domain/entities/change_favourite_entity.dart';
 import 'package:refactor/features/home/domain/entities/favourite_entity.dart';
@@ -12,4 +13,5 @@ abstract class HomeRepository {
   Future<Either<Failure, FavouriteEntity>> getFavourite();
   Future<Either<Failure, ChangeFavouriteEntity>> changeFavourite(
       ChangeFavouriteParams params);
+  Future<Either<Failure, UserEntity>> getUser();
 }

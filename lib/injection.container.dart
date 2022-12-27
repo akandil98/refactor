@@ -19,6 +19,7 @@ import 'package:refactor/features/home/domain/usecases/change_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_category.dart';
 import 'package:refactor/features/home/domain/usecases/get_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_product.dart';
+import 'package:refactor/features/home/domain/usecases/get_user.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,6 +39,7 @@ Future<void> init() async {
         getCategory: sl(),
         getFavourite: sl(),
         changeFavourite: sl(),
+        getUser: sl(),
       ));
 
   //use cases
@@ -49,6 +51,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetCategory(homeRepository: sl()));
   sl.registerLazySingleton(() => GetFavourite(homeRepository: sl()));
   sl.registerLazySingleton(() => ChangeFavourite(homeRepository: sl()));
+  sl.registerLazySingleton(() => GetUser(homeRepository: sl()));
 
   //repository
   //auth repositories

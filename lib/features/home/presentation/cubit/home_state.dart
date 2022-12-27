@@ -109,3 +109,22 @@ class ChangeFavouriteError extends HomeState {
   @override
   List<Object> get props => [msg];
 }
+
+// Settings States
+class SettingsIsLoading extends HomeState {}
+
+class SettingsLoaded extends HomeState {
+  final UserEntity userEntity;
+
+  const SettingsLoaded({required this.userEntity});
+  @override
+  List<Object> get props => [userEntity];
+}
+
+class SettingsError extends HomeState {
+  final String msg;
+
+  const SettingsError({required this.msg});
+  @override
+  List<Object> get props => [msg];
+}
