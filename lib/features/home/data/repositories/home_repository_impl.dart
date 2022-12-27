@@ -10,6 +10,7 @@ import 'package:refactor/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:refactor/features/home/domain/repositories/home_repository.dart';
 import 'package:refactor/features/home/domain/usecases/change_favourite.dart';
+import 'package:refactor/features/home/domain/usecases/update_user.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource homeRemoteDataSource;
@@ -87,6 +88,21 @@ class HomeRepositoryImpl implements HomeRepository {
         final remoteUser = await homeRemoteDataSource.getUser();
 
         return Right(remoteUser);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> updateUser(
+      UpdateUserParams params) async {
+    if (await netWorkInfo.isConnected) {
+      try {
+        final remoteUpdateUser = await homeRemoteDataSource.updateUser(params);
+        return Right(remoteUpdateUser);
       } on ServerException {
         return Left(ServerFailure());
       }

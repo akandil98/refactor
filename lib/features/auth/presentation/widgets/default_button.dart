@@ -34,6 +34,7 @@ class DefaultButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
+          shape: const StadiumBorder(),
           backgroundColor: color,
           padding: padding,
         ),

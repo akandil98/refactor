@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:refactor/config/routes/app_routes.dart';
 import 'package:refactor/core/utils/app_strings.dart';
 import 'package:refactor/features/auth/domain/entities/user_entity.dart';
 import 'package:refactor/features/auth/presentation/widgets/default_button.dart';
 import 'package:refactor/features/auth/presentation/widgets/default_form_field.dart';
+import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/injection.container.dart' as di;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +24,6 @@ class SettingsScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     nameController.text = userEntity.data.name;
     emailController.text = userEntity.data.email;
-    nameController.text = userEntity.data.name;
     phoneController.text = userEntity.data.phone;
     return Center(
       child: SingleChildScrollView(
@@ -74,7 +75,11 @@ class SettingsScreenContent extends StatelessWidget {
                 DefaultButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      //TODO update user data
+                      context.read<HomeCubit>().updateUserData(
+                            name: nameController.text,
+                            email: emailController.text,
+                            phone: phoneController.text,
+                          );
                     }
                   },
                   child: const Text(AppStrings.update),

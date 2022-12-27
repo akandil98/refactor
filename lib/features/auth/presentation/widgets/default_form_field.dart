@@ -18,7 +18,7 @@ class DefaultTextFormField extends StatelessWidget {
     Key? key,
     required this.controller,
     this.label,
-    this.height = 40,
+    this.height = 60,
     this.width = double.infinity,
     this.textInputType,
     this.isPassword = false,

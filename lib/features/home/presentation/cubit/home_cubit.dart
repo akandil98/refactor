@@ -13,6 +13,7 @@ import 'package:refactor/features/home/domain/usecases/get_category.dart';
 import 'package:refactor/features/home/domain/usecases/get_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_product.dart';
 import 'package:refactor/features/home/domain/usecases/get_user.dart';
+import 'package:refactor/features/home/domain/usecases/update_user.dart';
 
 part 'home_state.dart';
 
@@ -22,12 +23,14 @@ class HomeCubit extends Cubit<HomeState> {
   final GetFavourite getFavourite;
   final ChangeFavourite changeFavourite;
   final GetUser getUser;
+  final UpdateUser updateUser;
   HomeCubit({
     required this.getProduct,
     required this.getCategory,
     required this.getFavourite,
     required this.changeFavourite,
     required this.getUser,
+    required this.updateUser,
   }) : super(HomeInitial());
 
   int currentIndex = 0;
@@ -123,6 +126,24 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getUserData() async {
     emit(SettingsIsLoading());
     Either<Failure, UserEntity> response = await getUser(NoParams());
+
+    response.fold(
+      (failure) => emit(SettingsError(msg: mapFailureToMsg(failure))),
+      (userEntity) => emit(SettingsLoaded(userEntity: userEntity)),
+    );
+  }
+
+  Future<void> updateUserData({
+    required String name,
+    required String email,
+    required String phone,
+  }) async {
+    emit(SettingsIsLoading());
+    Either<Failure, UserEntity> response = await updateUser(UpdateUserParams(
+      name: name,
+      email: email,
+      phone: phone,
+    ));
 
     response.fold(
       (failure) => emit(SettingsError(msg: mapFailureToMsg(failure))),
