@@ -36,7 +36,9 @@ class HomeLayout extends StatelessWidget {
             title: const Text(AppStrings.appName),
             actions: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.searchRoute);
+                  },
                   icon: const Icon(
                     Icons.search,
                   )),

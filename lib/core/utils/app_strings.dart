@@ -60,4 +60,7 @@ class AppStrings {
   //settings_screen_content widget
   static const String update = 'Update';
   static const String logout = 'Logout';
+  //search screen
+  static const String search = 'Search';
+  static const String searchProducts = 'Search Products';
 }

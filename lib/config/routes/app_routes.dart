@@ -6,6 +6,8 @@ import 'package:refactor/features/auth/presentation/screens/login_screen/login_s
 import 'package:refactor/features/auth/presentation/screens/register_screen/register_screen.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/features/home/presentation/screens/home_layout.dart';
+import 'package:refactor/features/search/presentation/cubit/search_cubit.dart';
+import 'package:refactor/features/search/presentation/screens/search_screen.dart';
 import 'package:refactor/features/splash/presentation/screens/splash_screen.dart';
 import 'package:refactor/injection.container.dart' as di;
 
@@ -17,6 +19,8 @@ class Routes {
   static const String registerRoute = '/register';
 
   static const String homeRoute = '/home';
+
+  static const String searchRoute = '/search';
 }
 
 class AppRoutes {
@@ -49,6 +53,20 @@ class AppRoutes {
               ..getCategoryData()
               ..getUserData(),
             child: const HomeLayout(),
+          ),
+        );
+      case Routes.searchRoute:
+        return MaterialPageRoute(
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => di.sl<SearchCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => di.sl<HomeCubit>(),
+              ),
+            ],
+            child: SearchScreen(),
           ),
         );
 

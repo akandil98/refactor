@@ -99,7 +99,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> changeFavouriteData({required int productId}) async {
-    isFavorite[productId] = !isFavorite[productId]!;
+    isFavorite[productId] = !(isFavorite[productId]!);
     emit(ChangeFavouriteState());
     Either<Failure, ChangeFavouriteEntity> response =
         await changeFavourite(ChangeFavouriteParams(productId: productId));

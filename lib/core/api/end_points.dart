@@ -7,4 +7,5 @@ class EndPoints {
   static const String favourites = '${baseUrl}favorites';
   static const String profile = '${baseUrl}profile';
   static const String updateProfile = '${baseUrl}update-profile';
+  static const String search = '${baseUrl}products/search';
 }

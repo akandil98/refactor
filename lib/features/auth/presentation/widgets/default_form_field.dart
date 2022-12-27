@@ -14,6 +14,7 @@ class DefaultTextFormField extends StatelessWidget {
   final Function? suffixPressed;
   final bool? isClickable;
   final bool? isReadOnly;
+  final Function(String)? onSubmit;
   const DefaultTextFormField({
     Key? key,
     required this.controller,
@@ -28,6 +29,7 @@ class DefaultTextFormField extends StatelessWidget {
     this.suffixPressed,
     this.isClickable = true,
     this.isReadOnly = false,
+    this.onSubmit,
   }) : super(key: key);
 
   @override
@@ -64,6 +66,7 @@ class DefaultTextFormField extends StatelessWidget {
           border: const OutlineInputBorder(),
         ),
         readOnly: isReadOnly!,
+        onFieldSubmitted: onSubmit,
       ),
     );
   }

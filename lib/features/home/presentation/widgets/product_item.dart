@@ -92,14 +92,10 @@ class ProductItem extends StatelessWidget {
                       },
                       icon: CircleAvatar(
                         radius: 15.0.r,
-
                         backgroundColor:
                             cubit.isFavorite[cubit.products[index].id]!
                                 ? Colors.blue
                                 : Colors.grey,
-                        // (ShopCubit.get(context).favorites![model.id]!)
-                        //     ? defaultColor
-                        //     :
                         child: const Icon(
                           Icons.favorite_border,
                           size: 18.0,

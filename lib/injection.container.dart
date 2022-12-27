@@ -22,6 +22,11 @@ import 'package:refactor/features/home/domain/usecases/get_product.dart';
 import 'package:refactor/features/home/domain/usecases/get_user.dart';
 import 'package:refactor/features/home/domain/usecases/update_user.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
+import 'package:refactor/features/search/data/datasources/search_remote_data_source.dart';
+import 'package:refactor/features/search/data/repositories/search_repository_impl.dart';
+import 'package:refactor/features/search/domain/repositories/search_repository.dart';
+import 'package:refactor/features/search/domain/usecases/search_products.dart';
+import 'package:refactor/features/search/presentation/cubit/search_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
@@ -43,6 +48,7 @@ Future<void> init() async {
         getUser: sl(),
         updateUser: sl(),
       ));
+  sl.registerFactory(() => SearchCubit(searchProducts: sl()));
 
   //use cases
   //auth usecases
@@ -55,6 +61,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ChangeFavourite(homeRepository: sl()));
   sl.registerLazySingleton(() => GetUser(homeRepository: sl()));
   sl.registerLazySingleton(() => UpdateUser(homeRepository: sl()));
+  //search usecase
+  sl.registerLazySingleton(() => SearchProducts(searchRepository: sl()));
 
   //repository
   //auth repositories
@@ -68,6 +76,11 @@ Future<void> init() async {
         netWorkInfo: sl(),
         homeRemoteDataSource: sl(),
       ));
+  //search repository
+  sl.registerLazySingleton<SearchRepository>(() => SearchRepositoryImpl(
+        searchRemoteDataSource: sl(),
+        netWorkInfo: sl(),
+      ));
 
   // Data Source
   //auth data source
@@ -79,6 +92,9 @@ Future<void> init() async {
   //home data source
   sl.registerLazySingleton<HomeRemoteDataSource>(
       () => HomeRemoteDataSourceImpl(apiConsumer: sl()));
+  //search data source
+  sl.registerLazySingleton<SearchRemoteDataSource>(
+      () => SearchRemoteDataSourceImpl(apiConsumer: sl()));
 
   // core
   sl.registerLazySingleton<NetWorkInfo>(
