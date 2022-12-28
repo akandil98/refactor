@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:refactor/core/utils/app_strings.dart';
 import 'package:refactor/features/auth/presentation/widgets/default_form_field.dart';
-import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/features/search/presentation/cubit/search_cubit.dart';
 import 'package:refactor/features/search/presentation/widgets/search_screen_content.dart';
 

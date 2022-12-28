@@ -17,11 +17,13 @@ class CategoriesScreenContent extends StatelessWidget {
         children: [
           Row(
             children: [
-              Image(
-                image: NetworkImage(cubit.categories[index].image),
+              SizedBox(
                 width: 80.0.w,
                 height: 80.0.h,
-                fit: BoxFit.cover,
+                child: Image(
+                  image: NetworkImage(cubit.categories[index].image),
+                  fit: BoxFit.cover,
+                ),
               ),
               SizedBox(
                 width: 20.0.w,

@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:refactor/core/utils/app_strings.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
-import 'package:refactor/features/home/presentation/widgets/category_item.dart';
-import 'package:refactor/features/home/presentation/widgets/product_item.dart';
+import 'package:refactor/features/home/presentation/widgets/home_widgets/category_item.dart';
+import 'package:refactor/features/home/presentation/widgets/home_widgets/product_item.dart';
 
-class ProductsScreenContent extends StatelessWidget {
-  const ProductsScreenContent({super.key});
+class HomeScreenContent extends StatelessWidget {
+  const HomeScreenContent({super.key});
 
   @override
   Widget build(BuildContext context) {

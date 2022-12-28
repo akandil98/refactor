@@ -47,7 +47,8 @@ class HomeCubit extends Cubit<HomeState> {
   List<Banner> banners = [];
 
   Future<void> getProductData() async {
-    emit(ProductIsLoading());
+    //emit(ProductIsLoading());
+    emit(HomeIsLoading());
     Either<Failure, ProductEntity> response = await getProduct(NoParams());
 
     response
@@ -68,7 +69,8 @@ class HomeCubit extends Cubit<HomeState> {
   List<Category> categories = [];
 
   Future<void> getCategoryData() async {
-    emit(CategoryIsLoading());
+    // emit(CategoryIsLoading());
+    emit(HomeIsLoading());
     Either<Failure, CategoryEntity> response = await getCategory(NoParams());
 
     response
@@ -80,7 +82,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getHomeData() async {
-    emit(HomeIsLoading());
     await getProductData();
     await getCategoryData();
     emit(HomeLoaded());
@@ -88,7 +89,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   List<Favourite> favourites = [];
   Future<void> getFavouriteData() async {
-    emit(FavouriteIsLoading());
+    // emit(FavouriteIsLoading());
+    emit(HomeIsLoading());
     Either<Failure, FavouriteEntity> response = await getFavourite(NoParams());
     response
         .fold((failure) => emit(FavouriteError(msg: mapFailureToMsg(failure))),
@@ -122,14 +124,17 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   //get user data
-
+  UserData? userData;
   Future<void> getUserData() async {
     emit(SettingsIsLoading());
     Either<Failure, UserEntity> response = await getUser(NoParams());
 
     response.fold(
       (failure) => emit(SettingsError(msg: mapFailureToMsg(failure))),
-      (userEntity) => emit(SettingsLoaded(userEntity: userEntity)),
+      (userEntity) {
+        userData = userEntity.data;
+        emit(SettingsLoaded(userEntity: userEntity));
+      },
     );
   }
 
@@ -147,7 +152,10 @@ class HomeCubit extends Cubit<HomeState> {
 
     response.fold(
       (failure) => emit(SettingsError(msg: mapFailureToMsg(failure))),
-      (userEntity) => emit(SettingsLoaded(userEntity: userEntity)),
+      (userEntity) {
+        userData = userEntity.data;
+        emit(SettingsLoaded(userEntity: userEntity));
+      },
     );
   }
 }

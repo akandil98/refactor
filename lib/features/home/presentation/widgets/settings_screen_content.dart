@@ -11,8 +11,7 @@ import 'package:refactor/injection.container.dart' as di;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreenContent extends StatelessWidget {
-  final UserEntity userEntity;
-  SettingsScreenContent({super.key, required this.userEntity});
+  SettingsScreenContent({super.key});
 
   final sharedPreferences = di.sl<SharedPreferences>();
   final formKey = GlobalKey<FormState>();
@@ -22,9 +21,10 @@ class SettingsScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    nameController.text = userEntity.data.name;
-    emailController.text = userEntity.data.email;
-    phoneController.text = userEntity.data.phone;
+    final cubit = context.read<HomeCubit>().userData!;
+    nameController.text = cubit.name;
+    emailController.text = cubit.email;
+    phoneController.text = cubit.phone;
     return Center(
       child: SingleChildScrollView(
         child: Padding(

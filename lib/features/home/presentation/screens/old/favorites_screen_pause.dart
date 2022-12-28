@@ -6,14 +6,14 @@ import 'package:refactor/core/widgets/error_screen.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/features/home/presentation/widgets/favourites_screen_content.dart';
 
-class FavoritesScreen extends StatefulWidget {
-  const FavoritesScreen({super.key});
+class FavoritesScreenPause extends StatefulWidget {
+  const FavoritesScreenPause({super.key});
 
   @override
-  State<FavoritesScreen> createState() => _FavoritesScreenState();
+  State<FavoritesScreenPause> createState() => _FavoritesScreenState();
 }
 
-class _FavoritesScreenState extends State<FavoritesScreen> {
+class _FavoritesScreenState extends State<FavoritesScreenPause> {
   _getFavoriteData() => BlocProvider.of<HomeCubit>(context).getFavouriteData();
 
   // @override

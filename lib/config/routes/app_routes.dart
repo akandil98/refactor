@@ -48,9 +48,7 @@ class AppRoutes {
           builder: (context) => BlocProvider(
             create: (context) => di.sl<HomeCubit>()
               ..getHomeData()
-              ..getCategoryData()
               ..getFavouriteData()
-              ..getCategoryData()
               ..getUserData(),
             child: const HomeLayout(),
           ),

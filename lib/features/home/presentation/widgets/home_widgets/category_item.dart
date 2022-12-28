@@ -13,11 +13,13 @@ class CategoryItem extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
-        Image(
-          image: NetworkImage(cubit.categories[index].image),
+        SizedBox(
           height: 100.0.h,
           width: 100.0.w,
-          fit: BoxFit.cover,
+          child: Image(
+            image: NetworkImage(cubit.categories[index].image),
+            fit: BoxFit.cover,
+          ),
         ),
         Container(
             color: Colors.black.withOpacity(0.8),

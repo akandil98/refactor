@@ -6,13 +6,10 @@ import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 
 class FavouriteScreenContent extends StatelessWidget {
   final int index;
-  bool isOldPrice;
-  bool isFavourite;
-  FavouriteScreenContent({
+
+  const FavouriteScreenContent({
     super.key,
     required this.index,
-    this.isOldPrice = true,
-    this.isFavourite = true,
   });
 
   @override
@@ -28,14 +25,16 @@ class FavouriteScreenContent extends StatelessWidget {
             Stack(
               alignment: AlignmentDirectional.bottomStart,
               children: [
-                Image(
-                  image: NetworkImage(cubit.image),
-
+                SizedBox(
                   width: 120.0.w,
                   height: 120.0.h,
-                  // fit: BoxFit.cover,
+                  child: Image(
+                    image: NetworkImage(cubit.image),
+
+                    // fit: BoxFit.cover,
+                  ),
                 ),
-                if (cubit.discount != 0 && isOldPrice)
+                if (cubit.discount != 0)
                   Container(
                     color: Colors.red,
                     padding: const EdgeInsets.symmetric(
@@ -68,9 +67,8 @@ class FavouriteScreenContent extends StatelessWidget {
                       height: 1.3.h,
                     ),
                   ),
-                  //const Spacer(),
                   Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
@@ -84,7 +82,7 @@ class FavouriteScreenContent extends StatelessWidget {
                           SizedBox(
                             width: 5.0.w,
                           ),
-                          if (cubit.discount != 0 && isOldPrice)
+                          if (cubit.discount != 0)
                             Text(
                               '${cubit.oldPrice.round()} ${AppStrings.egp}',
                               style: TextStyle(
@@ -95,29 +93,26 @@ class FavouriteScreenContent extends StatelessWidget {
                             ),
                         ],
                       ),
-                      const Spacer(),
-                      if (isFavourite)
-                        IconButton(
-                          onPressed: () {
-                            context
-                                .read<HomeCubit>()
-                                .changeFavouriteData(productId: cubit.id);
-                          },
-                          icon: CircleAvatar(
-                            radius: 15.0,
-                            backgroundColor: (context
-                                        .read<HomeCubit>()
-                                        .isFavorite[cubit.id] !=
-                                    null)
-                                ? Colors.blue
-                                : Colors.grey,
-                            child: const Icon(
-                              Icons.favorite_border,
-                              size: 18.0,
-                              color: Colors.white,
-                            ),
+                      IconButton(
+                        onPressed: () {
+                          context
+                              .read<HomeCubit>()
+                              .changeFavouriteData(productId: cubit.id);
+                        },
+                        icon: CircleAvatar(
+                          radius: 15.0,
+                          backgroundColor:
+                              (context.read<HomeCubit>().isFavorite[cubit.id] !=
+                                      null)
+                                  ? Colors.blue
+                                  : Colors.grey,
+                          child: const Icon(
+                            Icons.favorite_border,
+                            size: 18.0,
+                            color: Colors.white,
                           ),
                         ),
+                      ),
                     ],
                   ),
                 ],

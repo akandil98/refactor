@@ -3,7 +3,7 @@ import 'package:refactor/features/auth/domain/entities/user_entity.dart';
 
 class TokenEntity extends Equatable {
   final String token;
-  Data? data;
+  UserData? data;
 
   TokenEntity({
     required this.token,
@@ -11,7 +11,7 @@ class TokenEntity extends Equatable {
 
   factory TokenEntity.fromJson(Map<String, dynamic> json) {
     return TokenEntity(
-      token: Data.fromJson(json['data']).token,
+      token: UserData.fromJson(json['data']).token,
     );
   }
 

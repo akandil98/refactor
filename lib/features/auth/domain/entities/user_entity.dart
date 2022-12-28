@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class UserEntity extends Equatable {
   final bool status;
 
-  final Data data;
+  final UserData data;
   const UserEntity({
     required this.status,
     required this.data,
@@ -11,7 +11,7 @@ class UserEntity extends Equatable {
 
   factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
         status: json['status'],
-        data: Data.fromJson(json['data']),
+        data: UserData.fromJson(json['data']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -23,7 +23,7 @@ class UserEntity extends Equatable {
   List<Object?> get props => [status, data];
 }
 
-class Data {
+class UserData {
   final int id;
   final String name;
   final String email;
@@ -33,7 +33,7 @@ class Data {
   final int? credit;
   final String token;
 
-  Data({
+  UserData({
     required this.id,
     required this.name,
     required this.email,
@@ -44,7 +44,7 @@ class Data {
     required this.token,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         id: json['id'],
         name: json['name'],
         email: json['email'],

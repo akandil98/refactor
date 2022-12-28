@@ -22,11 +22,14 @@ class ProductItem extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image(
-                  image: NetworkImage(cubit.products[index].image),
+                child: SizedBox(
                   width: double.infinity,
                   height: 150.0.h,
-                  // fit: BoxFit.cover,
+                  child: Image(
+                    image: NetworkImage(cubit.products[index].image),
+
+                    // fit: BoxFit.cover,
+                  ),
                 ),
               ),
               if (cubit.products[index].discount != 0)
@@ -85,23 +88,27 @@ class ProductItem extends StatelessWidget {
                           ),
                       ],
                     ),
-                    IconButton(
-                      onPressed: () {
-                        cubit.changeFavouriteData(
-                            productId: cubit.products[index].id);
+                    BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        return IconButton(
+                          onPressed: () {
+                            cubit.changeFavouriteData(
+                                productId: cubit.products[index].id);
+                          },
+                          icon: CircleAvatar(
+                            radius: 15.0.r,
+                            backgroundColor:
+                                cubit.isFavorite[cubit.products[index].id]!
+                                    ? Colors.blue
+                                    : Colors.grey,
+                            child: const Icon(
+                              Icons.favorite_border,
+                              size: 18.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
                       },
-                      icon: CircleAvatar(
-                        radius: 15.0.r,
-                        backgroundColor:
-                            cubit.isFavorite[cubit.products[index].id]!
-                                ? Colors.blue
-                                : Colors.grey,
-                        child: const Icon(
-                          Icons.favorite_border,
-                          size: 18.0,
-                          color: Colors.white,
-                        ),
-                      ),
                     ),
                   ],
                 ),

@@ -63,4 +63,7 @@ class AppStrings {
   //search screen
   static const String search = 'Search';
   static const String searchProducts = 'Search Products';
+
+  //favourite screen
+  static const String favouriteIsEmpty = 'Favourite is empty';
 }

@@ -5,8 +5,8 @@ import 'package:refactor/core/utils/app_strings.dart';
 import 'package:refactor/core/utils/constants.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/features/home/presentation/screens/categories_screen.dart';
-import 'package:refactor/features/home/presentation/screens/favorites_screen.dart';
-import 'package:refactor/features/home/presentation/screens/products_screen.dart';
+import 'package:refactor/features/home/presentation/screens/favourites_screen.dart';
+import 'package:refactor/features/home/presentation/screens/home_screen.dart';
 import 'package:refactor/features/home/presentation/screens/settings_screen.dart';
 import 'package:refactor/injection.container.dart' as di;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,9 +18,9 @@ class HomeLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final sharedPreferences = di.sl<SharedPreferences>();
     final List<Widget> bottomScreens = [
-      const ProductsScreen(),
+      const HomeScreen(),
       const CategoriesScreen(),
-      const FavoritesScreen(),
+      const FavouritesScreen(),
       const SettingsScreen(),
     ];
     return BlocConsumer<HomeCubit, HomeState>(
@@ -51,7 +51,12 @@ class HomeLayout extends StatelessWidget {
               ),
             ],
           ),
-          body: bottomScreens[context.read<HomeCubit>().currentIndex],
+          body: BlocBuilder<HomeCubit, HomeState>(
+            buildWhen: (previous, current) => previous is HomeInitial,
+            builder: (context, state) {
+              return bottomScreens[context.read<HomeCubit>().currentIndex];
+            },
+          ),
           bottomNavigationBar: BottomNavigationBar(
               onTap: (index) {
                 context.read<HomeCubit>().changeBottom(index);

@@ -18,7 +18,7 @@ class ErrorScreen extends StatelessWidget {
           const Center(
             child: Icon(
               Icons.warning_amber_outlined,
-              color: AppColors.primary,
+              color: Colors.black,
               size: 150,
             ),
           ),
@@ -48,7 +48,7 @@ class ErrorScreen extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Theme.of(context).primaryColor,
-                backgroundColor: AppColors.primary,
+                backgroundColor: Colors.black,
                 elevation: 500,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
