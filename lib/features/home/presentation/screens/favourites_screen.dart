@@ -28,9 +28,6 @@ class FavouritesScreen extends HookWidget {
       } else if (state is FavouriteError) {
         return ErrorScreen(
             onPress: () => context.read<HomeCubit>().getFavouriteData());
-      } else if (context.read<HomeCubit>().favourites.isEmpty) {
-        return ErrorScreen(
-            onPress: () => context.read<HomeCubit>().getFavouriteData());
       } else {
         return (context.read<HomeCubit>().favourites.isEmpty)
             ? Center(

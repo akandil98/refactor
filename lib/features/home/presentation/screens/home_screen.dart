@@ -17,7 +17,9 @@ class HomeScreen extends HookWidget {
 
   Widget _buildBodyContent() {
     return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-      if (state is HomeIsLoading) {
+      if (state is HomeIsLoading ||
+          context.read<HomeCubit>().categories.isEmpty ||
+          context.read<HomeCubit>().products.isEmpty) {
         return const Center(
           child: SpinKitFadingCircle(
             color: AppColors.hint,
@@ -26,8 +28,7 @@ class HomeScreen extends HookWidget {
       } else if (state is HomeError) {
         return ErrorScreen(
             onPress: () => context.read<HomeCubit>().getHomeData());
-      } else if (context.read<HomeCubit>().categories.isEmpty &&
-          context.read<HomeCubit>().products.isEmpty) {
+      } else if (state is ChangeFavouriteError) {
         return ErrorScreen(
             onPress: () => context.read<HomeCubit>().getHomeData());
       } else {
