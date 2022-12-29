@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
+import 'package:refactor/features/home/domain/entities/category_entity.dart';
 
-class CategoriesScreenContent extends StatelessWidget {
-  final int index;
-  const CategoriesScreenContent({super.key, required this.index});
+class CategoryWidget extends StatelessWidget {
+  final CategoryEntity categoryEntity;
+  const CategoryWidget({super.key, required this.categoryEntity});
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<HomeCubit>();
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
@@ -21,7 +19,7 @@ class CategoriesScreenContent extends StatelessWidget {
                 width: 80.0.w,
                 height: 80.0.h,
                 child: Image(
-                  image: NetworkImage(cubit.categories[index].image),
+                  image: NetworkImage(categoryEntity.image),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -29,7 +27,7 @@ class CategoriesScreenContent extends StatelessWidget {
                 width: 20.0.w,
               ),
               Text(
-                cubit.categories[index].name,
+                categoryEntity.name,
                 style: TextStyle(
                   fontSize: 20.0.sp,
                   fontWeight: FontWeight.bold,

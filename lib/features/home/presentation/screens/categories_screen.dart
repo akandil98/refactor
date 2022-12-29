@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:refactor/core/utils/app_colors.dart';
 import 'package:refactor/core/widgets/error_screen.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
-import 'package:refactor/features/home/presentation/widgets/categories_screen_content.dart';
+import 'package:refactor/features/home/presentation/widgets/categories_widgets/categories_list_widget.dart';
 
 class CategoriesScreen extends HookWidget {
   const CategoriesScreen({super.key});
@@ -27,11 +27,9 @@ class CategoriesScreen extends HookWidget {
       } else if (state is HomeErrorState || cubit.categories.isEmpty) {
         return ErrorScreen(onPress: () => cubit.getCategoriesList());
       } else {
-        return ListView.separated(
-            itemBuilder: (context, index) =>
-                CategoriesScreenContent(index: index),
-            separatorBuilder: (context, index) => const Divider(),
-            itemCount: context.read<HomeCubit>().categories.length);
+        return CategoriesListWidget(
+          categories: cubit.categories,
+        );
       }
     });
   }

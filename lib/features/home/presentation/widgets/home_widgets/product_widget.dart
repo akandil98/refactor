@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:refactor/core/utils/app_colors.dart';
 import 'package:refactor/core/utils/app_strings.dart';
+import 'package:refactor/features/home/domain/entities/product_entity.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 
-class ProductItem extends StatelessWidget {
-  final int index;
-  const ProductItem({super.key, required this.index});
+class ProductWidget extends StatelessWidget {
+  final ProductEntity productEntity;
+  const ProductWidget({super.key, required this.productEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +27,11 @@ class ProductItem extends StatelessWidget {
                   width: double.infinity,
                   height: 150.0.h,
                   child: Image(
-                    image: NetworkImage(cubit.products[index].image),
-
-                    // fit: BoxFit.cover,
+                    image: NetworkImage(productEntity.image),
                   ),
                 ),
               ),
-              if (cubit.products[index].discount != 0)
+              if (productEntity.discount != 0)
                 Container(
                   color: Colors.red,
                   padding: const EdgeInsets.all(5.0),
@@ -54,7 +53,7 @@ class ProductItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  cubit.products[index].name,
+                  productEntity.name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -68,7 +67,7 @@ class ProductItem extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '${cubit.products[index].price.round()} ${AppStrings.egp}',
+                          '${productEntity.price.round()} ${AppStrings.egp}',
                           style: TextStyle(
                             fontSize: 12.0.sp,
                             color: AppColors.primary,
@@ -77,9 +76,9 @@ class ProductItem extends StatelessWidget {
                         SizedBox(
                           width: 5.0.w,
                         ),
-                        if (cubit.products[index].discount != 0)
+                        if (productEntity.discount != 0)
                           Text(
-                            '${cubit.products[index].oldPrice.round()} ${AppStrings.egp}',
+                            '${productEntity.oldPrice.round()} ${AppStrings.egp}',
                             style: TextStyle(
                               fontSize: 10.0.sp,
                               color: Colors.grey,
@@ -93,14 +92,13 @@ class ProductItem extends StatelessWidget {
                         return IconButton(
                           onPressed: () {
                             cubit.changeFavouriteData(
-                                productId: cubit.products[index].id);
+                                productId: productEntity.id);
                           },
                           icon: CircleAvatar(
                             radius: 15.0.r,
-                            backgroundColor:
-                                cubit.isFavorite[cubit.products[index].id]!
-                                    ? Colors.blue
-                                    : Colors.grey,
+                            backgroundColor: cubit.isFavorite[productEntity.id]!
+                                ? Colors.blue
+                                : Colors.grey,
                             child: const Icon(
                               Icons.favorite_border,
                               size: 18.0,

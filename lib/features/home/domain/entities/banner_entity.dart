@@ -1,8 +1,10 @@
-class BannerEntity {
+import 'package:equatable/equatable.dart';
+
+class BannerEntity extends Equatable {
   final int id;
   final String image;
 
-  BannerEntity({
+  const BannerEntity({
     required this.id,
     required this.image,
   });
@@ -16,4 +18,7 @@ class BannerEntity {
         "id": id,
         "image": image,
       };
+
+  @override
+  List<Object?> get props => [id, image];
 }

@@ -1,45 +1,33 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:refactor/core/utils/app_strings.dart';
-import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
-import 'package:refactor/features/home/presentation/widgets/home_widgets/category_item.dart';
-import 'package:refactor/features/home/presentation/widgets/home_widgets/product_item.dart';
+import 'package:refactor/features/home/domain/entities/banner_entity.dart';
+import 'package:refactor/features/home/domain/entities/category_entity.dart';
+import 'package:refactor/features/home/domain/entities/product_entity.dart';
+import 'package:refactor/features/home/presentation/widgets/home_widgets/banners_list_widget.dart';
+import 'package:refactor/features/home/presentation/widgets/home_widgets/category_widget.dart';
+import 'package:refactor/features/home/presentation/widgets/home_widgets/product_widget.dart';
 
 class HomeScreenContent extends StatelessWidget {
-  const HomeScreenContent({super.key});
+  final List<BannerEntity> banners;
+  final List<CategoryEntity> categories;
+  final List<ProductEntity> products;
+  const HomeScreenContent({
+    super.key,
+    required this.banners,
+    required this.categories,
+    required this.products,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<HomeCubit>();
     return Center(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CarouselSlider(
-              items: cubit.banners
-                  .map((e) => Image(
-                        image: NetworkImage(e.image),
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ))
-                  .toList(),
-              options: CarouselOptions(
-                height: 200.0.h,
-                initialPage: 0,
-                viewportFraction: 1.0,
-                enableInfiniteScroll: true,
-                reverse: false,
-                autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 3),
-                autoPlayAnimationDuration: const Duration(seconds: 1),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
+            BannersListWidget(banners: banners),
             SizedBox(
               height: 10.0.h,
             ),
@@ -74,13 +62,13 @@ class HomeScreenContent extends StatelessWidget {
                     child: ListView.separated(
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => CategoryItem(
-                        index: index,
+                      itemBuilder: (context, index) => CategoryWidget(
+                        categoryEntity: categories[index],
                       ),
                       separatorBuilder: (context, index) => SizedBox(
                         width: 10.0.w,
                       ),
-                      itemCount: cubit.categories.length,
+                      itemCount: categories.length,
                     ),
                   ),
                   SizedBox(
@@ -118,12 +106,11 @@ class HomeScreenContent extends StatelessWidget {
                 crossAxisCount: 2,
                 mainAxisSpacing: 1.0,
                 crossAxisSpacing: 1.0,
-                //childAspectRatio: 1 / 1.2,
                 childAspectRatio: 1 / 1.57,
                 children: List.generate(
-                  cubit.products.length,
-                  (index) => ProductItem(
-                    index: index,
+                  products.length,
+                  (index) => ProductWidget(
+                    productEntity: products[index],
                   ),
                 ),
               ),

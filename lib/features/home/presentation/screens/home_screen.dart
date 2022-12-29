@@ -33,7 +33,11 @@ class HomeScreen extends HookWidget {
               ..getCategoriesList()
               ..getProductsList());
       } else {
-        return const HomeScreenContent();
+        return HomeScreenContent(
+          banners: cubit.banners,
+          categories: cubit.categories,
+          products: cubit.products,
+        );
       }
     });
   }
