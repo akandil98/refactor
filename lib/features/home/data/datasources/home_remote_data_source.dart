@@ -1,20 +1,16 @@
 import 'package:refactor/core/api/api_consumer.dart';
 import 'package:refactor/core/api/end_points.dart';
-import 'package:refactor/features/auth/domain/entities/user_entity.dart';
 import 'package:refactor/features/home/domain/entities/category_entity.dart';
 import 'package:refactor/features/home/domain/entities/change_favourite_entity.dart';
 import 'package:refactor/features/home/domain/entities/favourite_entity.dart';
-import 'package:refactor/features/home/domain/entities/product_entity.dart';
+import 'package:refactor/features/home/domain/entities/home_entity.dart';
 import 'package:refactor/features/home/domain/usecases/change_favourite.dart';
-import 'package:refactor/features/home/domain/usecases/update_user.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<ProductEntity> getProduct();
+  Future<HomeEntity> getHome();
   Future<CategoryEntity> getCategory();
   Future<FavouriteEntity> getFavourite();
   Future<ChangeFavouriteEntity> changeFavourite(ChangeFavouriteParams params);
-  Future<UserEntity> getUser();
-  Future<UserEntity> updateUser(UpdateUserParams params);
 }
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
@@ -23,9 +19,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   HomeRemoteDataSourceImpl({required this.apiConsumer});
 
   @override
-  Future<ProductEntity> getProduct() async {
+  Future<HomeEntity> getHome() async {
     final response = await apiConsumer.get(EndPoints.home);
-    return ProductEntity.fromJson(response);
+    return HomeEntity.fromJson(response);
   }
 
   @override
@@ -50,23 +46,5 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       },
     );
     return ChangeFavouriteEntity.fromJson(response);
-  }
-
-  @override
-  Future<UserEntity> getUser() async {
-    final response = await apiConsumer.get(
-      EndPoints.profile,
-    );
-    return UserEntity.fromJson(response);
-  }
-
-  @override
-  Future<UserEntity> updateUser(UpdateUserParams params) async {
-    final response = await apiConsumer.put(EndPoints.updateProfile, body: {
-      'name': params.name,
-      'email': params.email,
-      'phone': params.phone,
-    });
-    return UserEntity.fromJson(response);
   }
 }

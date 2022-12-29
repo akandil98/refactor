@@ -7,30 +7,25 @@ import 'package:refactor/features/auth/domain/entities/user_entity.dart';
 import 'package:refactor/features/home/domain/entities/category_entity.dart';
 import 'package:refactor/features/home/domain/entities/change_favourite_entity.dart';
 import 'package:refactor/features/home/domain/entities/favourite_entity.dart';
-import 'package:refactor/features/home/domain/entities/product_entity.dart';
+import 'package:refactor/features/home/domain/entities/home_entity.dart';
 import 'package:refactor/features/home/domain/usecases/change_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_category.dart';
 import 'package:refactor/features/home/domain/usecases/get_favourite.dart';
-import 'package:refactor/features/home/domain/usecases/get_product.dart';
-import 'package:refactor/features/home/domain/usecases/get_user.dart';
-import 'package:refactor/features/home/domain/usecases/update_user.dart';
+import 'package:refactor/features/home/domain/usecases/get_home.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  final GetProduct getProduct;
+  final GetHome getHome;
   final GetCategory getCategory;
   final GetFavourite getFavourite;
   final ChangeFavourite changeFavourite;
-  final GetUser getUser;
-  final UpdateUser updateUser;
+
   HomeCubit({
-    required this.getProduct,
+    required this.getHome,
     required this.getCategory,
     required this.getFavourite,
     required this.changeFavourite,
-    required this.getUser,
-    required this.updateUser,
   }) : super(HomeInitial());
 
   int currentIndex = 0;
@@ -49,20 +44,20 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getProductData() async {
     //emit(ProductIsLoading());
     emit(HomeIsLoading());
-    Either<Failure, ProductEntity> response = await getProduct(NoParams());
+    Either<Failure, HomeEntity> response = await getHome(NoParams());
 
     response
         .fold((failure) => emit(ProductError(msg: mapFailureToMsg(failure))),
-            (productEntity) {
-      for (var element in productEntity.data.products) {
+            (homeEntity) {
+      for (var element in homeEntity.data.products) {
         isFavorite.addAll({
           element.id: element.inFavorites,
         });
       }
 
-      products = productEntity.data.products;
-      banners = productEntity.data.banners;
-      emit(ProductLoaded(productEntity: productEntity));
+      products = homeEntity.data.products;
+      banners = homeEntity.data.banners;
+      emit(ProductLoaded(homeEntity: homeEntity));
     });
   }
 
@@ -113,49 +108,10 @@ class HomeCubit extends Cubit<HomeState> {
         isFavorite[productId] = !isFavorite[productId]!;
       } else {
         getFavouriteData();
-        // emit(ChangeFavouriteLoaded(
-        //     changefavouriteEntity: changeFavouriteEntity));
-        //  emit(HomeLoaded());
       }
 
       emit(ChangeFavouriteLoaded(changefavouriteEntity: changeFavouriteEntity));
       emit(HomeLoaded());
     });
-  }
-
-  //get user data
-  UserData? userData;
-  Future<void> getUserData() async {
-    emit(SettingsIsLoading());
-    Either<Failure, UserEntity> response = await getUser(NoParams());
-
-    response.fold(
-      (failure) => emit(SettingsError(msg: mapFailureToMsg(failure))),
-      (userEntity) {
-        userData = userEntity.data;
-        emit(SettingsLoaded(userEntity: userEntity));
-      },
-    );
-  }
-
-  Future<void> updateUserData({
-    required String name,
-    required String email,
-    required String phone,
-  }) async {
-    emit(SettingsIsLoading());
-    Either<Failure, UserEntity> response = await updateUser(UpdateUserParams(
-      name: name,
-      email: email,
-      phone: phone,
-    ));
-
-    response.fold(
-      (failure) => emit(SettingsError(msg: mapFailureToMsg(failure))),
-      (userEntity) {
-        userData = userEntity.data;
-        emit(SettingsLoaded(userEntity: userEntity));
-      },
-    );
   }
 }

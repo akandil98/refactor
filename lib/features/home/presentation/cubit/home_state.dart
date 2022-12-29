@@ -38,11 +38,11 @@ class HomeError extends HomeState {
 class ProductIsLoading extends HomeState {}
 
 class ProductLoaded extends HomeState {
-  final ProductEntity productEntity;
+  final HomeEntity homeEntity;
 
-  const ProductLoaded({required this.productEntity});
+  const ProductLoaded({required this.homeEntity});
   @override
-  List<Object> get props => [productEntity];
+  List<Object> get props => [homeEntity];
 }
 
 class ProductError extends HomeState {
@@ -106,25 +106,6 @@ class ChangeFavouriteError extends HomeState {
   final String msg;
 
   const ChangeFavouriteError({required this.msg});
-  @override
-  List<Object> get props => [msg];
-}
-
-// Settings States
-class SettingsIsLoading extends HomeState {}
-
-class SettingsLoaded extends HomeState {
-  final UserEntity userEntity;
-
-  const SettingsLoaded({required this.userEntity});
-  @override
-  List<Object> get props => [userEntity];
-}
-
-class SettingsError extends HomeState {
-  final String msg;
-
-  const SettingsError({required this.msg});
   @override
   List<Object> get props => [msg];
 }

@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 
-class ProductEntity extends Equatable {
+class HomeEntity extends Equatable {
   final bool status;
   final Data data;
 
-  const ProductEntity({
+  const HomeEntity({
     required this.status,
     required this.data,
   });
 
-  factory ProductEntity.fromJson(Map<String, dynamic> json) => ProductEntity(
+  factory HomeEntity.fromJson(Map<String, dynamic> json) => HomeEntity(
         status: json["status"],
         data: Data.fromJson(json["data"]),
       );

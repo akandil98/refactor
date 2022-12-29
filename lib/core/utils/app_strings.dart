@@ -46,7 +46,7 @@ class AppStrings {
 
   //home layout
   static const String welcome = 'Welcome';
-  static const String products = 'Products';
+  static const String home = 'Home';
   static const String categories = 'Categories';
   static const String favourite = 'Favourite';
   static const String settings = 'Settings';

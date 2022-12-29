@@ -7,7 +7,7 @@ import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/features/home/presentation/screens/categories_screen.dart';
 import 'package:refactor/features/home/presentation/screens/favourites_screen.dart';
 import 'package:refactor/features/home/presentation/screens/home_screen.dart';
-import 'package:refactor/features/home/presentation/screens/settings_screen.dart';
+import 'package:refactor/features/settings/presentation/screens/settings_screen.dart';
 import 'package:refactor/injection.container.dart' as di;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,7 +65,7 @@ class HomeLayout extends StatelessWidget {
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
-                  label: AppStrings.products,
+                  label: AppStrings.home,
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.apps),

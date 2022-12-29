@@ -18,15 +18,19 @@ import 'package:refactor/features/home/domain/repositories/home_repository.dart'
 import 'package:refactor/features/home/domain/usecases/change_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_category.dart';
 import 'package:refactor/features/home/domain/usecases/get_favourite.dart';
-import 'package:refactor/features/home/domain/usecases/get_product.dart';
-import 'package:refactor/features/home/domain/usecases/get_user.dart';
-import 'package:refactor/features/home/domain/usecases/update_user.dart';
+import 'package:refactor/features/home/domain/usecases/get_home.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/features/search/data/datasources/search_remote_data_source.dart';
 import 'package:refactor/features/search/data/repositories/search_repository_impl.dart';
 import 'package:refactor/features/search/domain/repositories/search_repository.dart';
 import 'package:refactor/features/search/domain/usecases/search_products.dart';
 import 'package:refactor/features/search/presentation/cubit/search_cubit.dart';
+import 'package:refactor/features/settings/data/datasources/settings_remote_data_source.dart';
+import 'package:refactor/features/settings/data/repositories/settings_repository_impl.dart';
+import 'package:refactor/features/settings/domain/repositories/settings_repository.dart';
+import 'package:refactor/features/settings/domain/usecases/get_user.dart';
+import 'package:refactor/features/settings/domain/usecases/update_user.dart';
+import 'package:refactor/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
@@ -41,28 +45,30 @@ Future<void> init() async {
         userRegister: sl(),
       ));
   sl.registerFactory(() => HomeCubit(
-        getProduct: sl(),
+        getHome: sl(),
         getCategory: sl(),
         getFavourite: sl(),
         changeFavourite: sl(),
-        getUser: sl(),
-        updateUser: sl(),
       ));
   sl.registerFactory(() => SearchCubit(searchProducts: sl()));
+  sl.registerFactory(() => SettingsCubit(getUser: sl(), updateUser: sl()));
 
   //use cases
   //auth usecases
   sl.registerLazySingleton(() => UserLogin(authRepository: sl()));
   sl.registerLazySingleton(() => UserRegister(authRepository: sl()));
   //home usecase
-  sl.registerLazySingleton(() => GetProduct(homeRepository: sl()));
+  sl.registerLazySingleton(() => GetHome(homeRepository: sl()));
   sl.registerLazySingleton(() => GetCategory(homeRepository: sl()));
   sl.registerLazySingleton(() => GetFavourite(homeRepository: sl()));
   sl.registerLazySingleton(() => ChangeFavourite(homeRepository: sl()));
-  sl.registerLazySingleton(() => GetUser(homeRepository: sl()));
-  sl.registerLazySingleton(() => UpdateUser(homeRepository: sl()));
+  // sl.registerLazySingleton(() => GetUser(homeRepository: sl()));
+  // sl.registerLazySingleton(() => UpdateUser(homeRepository: sl()));
   //search usecase
   sl.registerLazySingleton(() => SearchProducts(searchRepository: sl()));
+  //settings usecase
+  sl.registerLazySingleton(() => GetUser(settingsRepository: sl()));
+  sl.registerLazySingleton(() => UpdateUser(settingsRepository: sl()));
 
   //repository
   //auth repositories
@@ -81,6 +87,10 @@ Future<void> init() async {
         searchRemoteDataSource: sl(),
         netWorkInfo: sl(),
       ));
+  sl.registerLazySingleton<SettingsRepository>(() => SettingsRepositoryImpl(
+        settingsRemoteDataSource: sl(),
+        netWorkInfo: sl(),
+      ));
 
   // Data Source
   //auth data source
@@ -95,6 +105,9 @@ Future<void> init() async {
   //search data source
   sl.registerLazySingleton<SearchRemoteDataSource>(
       () => SearchRemoteDataSourceImpl(apiConsumer: sl()));
+  //settings data source
+  sl.registerLazySingleton<SettingsRemoteDataSource>(
+      () => SettingsRemoteDataSourceImpl(apiConsumer: sl()));
 
   // core
   sl.registerLazySingleton<NetWorkInfo>(

@@ -8,6 +8,7 @@ import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/features/home/presentation/screens/home_layout.dart';
 import 'package:refactor/features/search/presentation/cubit/search_cubit.dart';
 import 'package:refactor/features/search/presentation/screens/search_screen.dart';
+import 'package:refactor/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:refactor/features/splash/presentation/screens/splash_screen.dart';
 import 'package:refactor/injection.container.dart' as di;
 
@@ -45,11 +46,17 @@ class AppRoutes {
         );
       case Routes.homeRoute:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => di.sl<HomeCubit>()
-              ..getHomeData()
-              ..getFavouriteData()
-              ..getUserData(),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => di.sl<HomeCubit>()
+                  ..getHomeData()
+                  ..getFavouriteData(),
+              ),
+              BlocProvider(
+                create: (context) => di.sl<SettingsCubit>()..getUserData(),
+              ),
+            ],
             child: const HomeLayout(),
           ),
         );
