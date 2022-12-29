@@ -3,89 +3,98 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:refactor/core/error/failures.dart';
 import 'package:refactor/core/usecases/usecase.dart';
-import 'package:refactor/features/auth/domain/entities/user_entity.dart';
+import 'package:refactor/features/home/domain/entities/banner_entity.dart';
 import 'package:refactor/features/home/domain/entities/category_entity.dart';
 import 'package:refactor/features/home/domain/entities/change_favourite_entity.dart';
 import 'package:refactor/features/home/domain/entities/favourite_entity.dart';
-import 'package:refactor/features/home/domain/entities/home_entity.dart';
+import 'package:refactor/features/home/domain/entities/product_entity.dart';
 import 'package:refactor/features/home/domain/usecases/change_favourite.dart';
-import 'package:refactor/features/home/domain/usecases/get_category.dart';
+import 'package:refactor/features/home/domain/usecases/get_banners.dart';
+import 'package:refactor/features/home/domain/usecases/get_categories.dart';
 import 'package:refactor/features/home/domain/usecases/get_favourite.dart';
-import 'package:refactor/features/home/domain/usecases/get_home.dart';
+import 'package:refactor/features/home/domain/usecases/get_products.dart';
 
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  final GetHome getHome;
-  final GetCategory getCategory;
+  final GetBanners getBanners;
+  final GetProducts getProducts;
+  final GetCategories getCategories;
   final GetFavourite getFavourite;
   final ChangeFavourite changeFavourite;
 
   HomeCubit({
-    required this.getHome,
-    required this.getCategory,
+    required this.getBanners,
+    required this.getProducts,
+    required this.getCategories,
     required this.getFavourite,
     required this.changeFavourite,
-  }) : super(HomeInitial());
+  }) : super(HomeInitialState());
 
   int currentIndex = 0;
 
   void changeBottom(int index) {
-    emit(HomeInitial());
+    emit(HomeInitialState());
     currentIndex = index;
     emit(ChangeBottomNavState());
   }
 
   Map<int, bool> isFavorite = {};
 
-  List<Product> products = [];
-  List<Banner> banners = [];
+  List<ProductEntity> products = [];
 
-  Future<void> getProductData() async {
-    //emit(ProductIsLoading());
-    emit(HomeIsLoading());
-    Either<Failure, HomeEntity> response = await getHome(NoParams());
+  Future<void> getProductsList() async {
+    emit(HomeIsLoadingState());
+    final response = await getProducts(NoParams());
 
     response
-        .fold((failure) => emit(ProductError(msg: mapFailureToMsg(failure))),
-            (homeEntity) {
-      for (var element in homeEntity.data.products) {
+        .fold((failure) => emit(HomeErrorState(msg: mapFailureToMsg(failure))),
+            (products) {
+      for (var element in products) {
         isFavorite.addAll({
           element.id: element.inFavorites,
         });
       }
 
-      products = homeEntity.data.products;
-      banners = homeEntity.data.banners;
-      emit(ProductLoaded(homeEntity: homeEntity));
+      this.products = products;
+
+      emit(HomeGetProductsLoadedState());
     });
   }
 
-  List<Category> categories = [];
+  List<BannerEntity> banners = [];
 
-  Future<void> getCategoryData() async {
-    // emit(CategoryIsLoading());
-    emit(HomeIsLoading());
-    Either<Failure, CategoryEntity> response = await getCategory(NoParams());
+  Future<void> getBannersList() async {
+    emit(HomeIsLoadingState());
+    final response = await getBanners(NoParams());
 
     response
-        .fold((failure) => emit(CategoryError(msg: mapFailureToMsg(failure))),
-            (categoryEntity) {
-      categories = categoryEntity.data.data;
-      emit(CategoryLoaded(categoryEntity: categoryEntity));
+        .fold((failure) => emit(HomeErrorState(msg: mapFailureToMsg(failure))),
+            (banners) {
+      this.banners = banners;
+
+      emit(HomeGetBannersLoadedState());
     });
   }
 
-  Future<void> getHomeData() async {
-    await getProductData();
-    await getCategoryData();
-    emit(HomeLoaded());
+  List<CategoryEntity> categories = [];
+
+  Future<void> getCategoriesList() async {
+    emit(HomeIsLoadingState());
+    final response = await getCategories(NoParams());
+
+    response
+        .fold((failure) => emit(HomeErrorState(msg: mapFailureToMsg(failure))),
+            (categories) {
+      this.categories = categories;
+      emit(HomeGetCategoriesLoadedState());
+    });
   }
 
   List<Favourite> favourites = [];
   Future<void> getFavouriteData() async {
     // emit(FavouriteIsLoading());
-    emit(HomeIsLoading());
+    emit(HomeIsLoadingState());
     Either<Failure, FavouriteEntity> response = await getFavourite(NoParams());
     response
         .fold((failure) => emit(FavouriteError(msg: mapFailureToMsg(failure))),
@@ -111,7 +120,7 @@ class HomeCubit extends Cubit<HomeState> {
       }
 
       emit(ChangeFavouriteLoaded(changefavouriteEntity: changeFavouriteEntity));
-      emit(HomeLoaded());
+      emit(HomeLoadedState());
     });
   }
 }

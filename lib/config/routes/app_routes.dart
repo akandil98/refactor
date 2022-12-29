@@ -50,7 +50,9 @@ class AppRoutes {
             providers: [
               BlocProvider(
                 create: (context) => di.sl<HomeCubit>()
-                  ..getHomeData()
+                  ..getBannersList()
+                  ..getCategoriesList()
+                  ..getProductsList()
                   ..getFavouriteData(),
               ),
               BlocProvider(

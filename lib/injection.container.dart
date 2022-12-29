@@ -16,9 +16,10 @@ import 'package:refactor/features/home/data/datasources/home_remote_data_source.
 import 'package:refactor/features/home/data/repositories/home_repository_impl.dart';
 import 'package:refactor/features/home/domain/repositories/home_repository.dart';
 import 'package:refactor/features/home/domain/usecases/change_favourite.dart';
-import 'package:refactor/features/home/domain/usecases/get_category.dart';
+import 'package:refactor/features/home/domain/usecases/get_banners.dart';
+import 'package:refactor/features/home/domain/usecases/get_categories.dart';
 import 'package:refactor/features/home/domain/usecases/get_favourite.dart';
-import 'package:refactor/features/home/domain/usecases/get_home.dart';
+import 'package:refactor/features/home/domain/usecases/get_products.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/features/search/data/datasources/search_remote_data_source.dart';
 import 'package:refactor/features/search/data/repositories/search_repository_impl.dart';
@@ -44,13 +45,17 @@ Future<void> init() async {
         userLogin: sl(),
         userRegister: sl(),
       ));
+  // Home bloc
   sl.registerFactory(() => HomeCubit(
-        getHome: sl(),
-        getCategory: sl(),
+        getBanners: sl(),
+        getProducts: sl(),
+        getCategories: sl(),
         getFavourite: sl(),
         changeFavourite: sl(),
       ));
+  // Home bloc
   sl.registerFactory(() => SearchCubit(searchProducts: sl()));
+  // Settings bloc
   sl.registerFactory(() => SettingsCubit(getUser: sl(), updateUser: sl()));
 
   //use cases
@@ -58,12 +63,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UserLogin(authRepository: sl()));
   sl.registerLazySingleton(() => UserRegister(authRepository: sl()));
   //home usecase
-  sl.registerLazySingleton(() => GetHome(homeRepository: sl()));
-  sl.registerLazySingleton(() => GetCategory(homeRepository: sl()));
+  sl.registerLazySingleton(() => GetBanners(homeRepository: sl()));
+  sl.registerLazySingleton(() => GetProducts(homeRepository: sl()));
+  sl.registerLazySingleton(() => GetCategories(homeRepository: sl()));
   sl.registerLazySingleton(() => GetFavourite(homeRepository: sl()));
   sl.registerLazySingleton(() => ChangeFavourite(homeRepository: sl()));
-  // sl.registerLazySingleton(() => GetUser(homeRepository: sl()));
-  // sl.registerLazySingleton(() => UpdateUser(homeRepository: sl()));
+
   //search usecase
   sl.registerLazySingleton(() => SearchProducts(searchRepository: sl()));
   //settings usecase

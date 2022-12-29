@@ -8,69 +8,28 @@ abstract class HomeState extends Equatable {
 }
 
 // home layout states
-class HomeInitial extends HomeState {}
+class HomeInitialState extends HomeState {}
 
 class ChangeBottomNavState extends HomeState {}
 
-class HomeIsLoading extends HomeState {}
+class HomeIsLoadingState extends HomeState {}
 
-class HomeLoaded extends HomeState {
-  // final ProductEntity productEntity;
-  // final CategoryEntity categoryEntity;
-
-  // const HomeLoaded({
-  //   required this.productEntity,
-  //   required this.categoryEntity,
-  // });
-  // @override
-  // List<Object> get props => [productEntity, categoryEntity];
-}
-
-class HomeError extends HomeState {
+class HomeErrorState extends HomeState {
   final String msg;
 
-  const HomeError({required this.msg});
+  const HomeErrorState({required this.msg});
   @override
   List<Object> get props => [msg];
 }
 
-// product states
-class ProductIsLoading extends HomeState {}
+//TODO fix favourite state to load without Home loaded
+class HomeLoadedState extends HomeState {}
 
-class ProductLoaded extends HomeState {
-  final HomeEntity homeEntity;
+class HomeGetBannersLoadedState extends HomeState {}
 
-  const ProductLoaded({required this.homeEntity});
-  @override
-  List<Object> get props => [homeEntity];
-}
+class HomeGetProductsLoadedState extends HomeState {}
 
-class ProductError extends HomeState {
-  final String msg;
-
-  const ProductError({required this.msg});
-  @override
-  List<Object> get props => [msg];
-}
-
-// category states
-class CategoryIsLoading extends HomeState {}
-
-class CategoryLoaded extends HomeState {
-  final CategoryEntity categoryEntity;
-
-  const CategoryLoaded({required this.categoryEntity});
-  @override
-  List<Object> get props => [categoryEntity];
-}
-
-class CategoryError extends HomeState {
-  final String msg;
-
-  const CategoryError({required this.msg});
-  @override
-  List<Object> get props => [msg];
-}
+class HomeGetCategoriesLoadedState extends HomeState {}
 
 // Favourite states
 class FavouriteIsLoading extends HomeState {}

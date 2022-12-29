@@ -19,7 +19,7 @@ class FavouritesScreen extends HookWidget {
 
   Widget _buildBodyContent() {
     return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-      if (state is HomeIsLoading) {
+      if (state is HomeIsLoadingState) {
         return const Center(
           child: SpinKitFadingCircle(
             color: AppColors.hint,

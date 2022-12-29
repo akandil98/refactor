@@ -9,8 +9,8 @@ import 'package:refactor/core/utils/app_strings.dart';
 import 'package:refactor/core/utils/constants.dart';
 import 'package:refactor/extentions/if_debugging.dart';
 import 'package:refactor/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:refactor/features/auth/presentation/widgets/default_button.dart';
-import 'package:refactor/features/auth/presentation/widgets/default_form_field.dart';
+import 'package:refactor/core/widgets/default_button.dart';
+import 'package:refactor/core/widgets/default_form_field.dart';
 
 class RegisterScreen extends HookWidget {
   const RegisterScreen({Key? key}) : super(key: key);

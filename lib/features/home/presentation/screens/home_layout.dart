@@ -25,7 +25,7 @@ class HomeLayout extends StatelessWidget {
     ];
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {
-        if (state is HomeError) {
+        if (state is HomeErrorState) {
           Constants.showErrorDialog(context: context, msg: state.msg);
         }
       },
@@ -52,7 +52,7 @@ class HomeLayout extends StatelessWidget {
             ],
           ),
           body: BlocBuilder<HomeCubit, HomeState>(
-            buildWhen: (previous, current) => previous is HomeInitial,
+            buildWhen: (previous, current) => previous is HomeInitialState,
             builder: (context, state) {
               return bottomScreens[context.read<HomeCubit>().currentIndex];
             },

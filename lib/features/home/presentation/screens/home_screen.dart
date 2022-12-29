@@ -17,20 +17,21 @@ class HomeScreen extends HookWidget {
 
   Widget _buildBodyContent() {
     return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-      if (state is HomeIsLoading ||
-          context.read<HomeCubit>().categories.isEmpty ||
-          context.read<HomeCubit>().products.isEmpty) {
+      final cubit = context.read<HomeCubit>();
+      if (state is HomeIsLoadingState ||
+          cubit.categories.isEmpty ||
+          cubit.products.isEmpty) {
         return const Center(
           child: SpinKitFadingCircle(
             color: AppColors.hint,
           ),
         );
-      } else if (state is HomeError) {
+      } else if (state is HomeErrorState || state is ChangeFavouriteError) {
         return ErrorScreen(
-            onPress: () => context.read<HomeCubit>().getHomeData());
-      } else if (state is ChangeFavouriteError) {
-        return ErrorScreen(
-            onPress: () => context.read<HomeCubit>().getHomeData());
+            onPress: () => cubit
+              ..getBannersList()
+              ..getCategoriesList()
+              ..getProductsList());
       } else {
         return const HomeScreenContent();
       }

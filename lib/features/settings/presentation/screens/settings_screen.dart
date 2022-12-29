@@ -17,16 +17,14 @@ class SettingsScreen extends HookWidget {
 
   Widget _buildBodyContent() {
     return BlocBuilder<SettingsCubit, SettingsState>(builder: (context, state) {
+      final cubit = context.read<SettingsCubit>();
       if (state is SettingsIsLoading) {
         return const Center(
           child: SpinKitFadingCircle(
             color: AppColors.hint,
           ),
         );
-      } else if (state is SettingsError) {
-        return ErrorScreen(
-            onPress: () => context.read<SettingsCubit>().getUserData());
-      } else if (context.read<SettingsCubit>().userData == null) {
+      } else if (state is SettingsError || cubit.userData == null) {
         return ErrorScreen(
             onPress: () => context.read<SettingsCubit>().getUserData());
       } else {

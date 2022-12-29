@@ -4,12 +4,12 @@ import 'package:refactor/core/usecases/usecase.dart';
 import 'package:refactor/features/home/domain/entities/category_entity.dart';
 import 'package:refactor/features/home/domain/repositories/home_repository.dart';
 
-class GetCategory implements UseCase<CategoryEntity, NoParams> {
+class GetCategories implements UseCase<List<CategoryEntity>, NoParams> {
   final HomeRepository homeRepository;
 
-  GetCategory({required this.homeRepository});
+  GetCategories({required this.homeRepository});
   @override
-  Future<Either<Failure, CategoryEntity>> call(NoParams params) async {
-    return await homeRepository.getCategory();
+  Future<Either<Failure, List<CategoryEntity>>> call(NoParams params) async {
+    return await homeRepository.getCategories();
   }
 }

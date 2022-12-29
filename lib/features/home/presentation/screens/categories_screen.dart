@@ -17,18 +17,15 @@ class CategoriesScreen extends HookWidget {
 
   Widget _buildBodyContent() {
     return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-      if (state is HomeIsLoading) {
+      final cubit = context.read<HomeCubit>();
+      if (state is HomeIsLoadingState) {
         return const Center(
           child: SpinKitFadingCircle(
             color: AppColors.hint,
           ),
         );
-      } else if (state is CategoryError) {
-        return ErrorScreen(
-            onPress: () => context.read<HomeCubit>().getCategoryData());
-      } else if (context.read<HomeCubit>().categories.isEmpty) {
-        return ErrorScreen(
-            onPress: () => context.read<HomeCubit>().getCategoryData());
+      } else if (state is HomeErrorState || cubit.categories.isEmpty) {
+        return ErrorScreen(onPress: () => cubit.getCategoriesList());
       } else {
         return ListView.separated(
             itemBuilder: (context, index) =>
