@@ -91,14 +91,16 @@ class ProductWidget extends StatelessWidget {
                       builder: (context, state) {
                         return IconButton(
                           onPressed: () {
-                            cubit.changeFavouriteData(
-                                productId: productEntity.id);
+                            //TODO change Favourite
+                            // cubit.changeFavouriteData(
+                            //     productId: productEntity.id);
                           },
                           icon: CircleAvatar(
                             radius: 15.0.r,
-                            backgroundColor: cubit.isFavorite[productEntity.id]!
-                                ? Colors.blue
-                                : Colors.grey,
+                            backgroundColor:
+                                cubit.isInFavorite(productEntity.id)
+                                    ? Colors.blue
+                                    : Colors.grey,
                             child: const Icon(
                               Icons.favorite_border,
                               size: 18.0,

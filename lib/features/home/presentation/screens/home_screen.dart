@@ -26,7 +26,7 @@ class HomeScreen extends HookWidget {
             color: AppColors.hint,
           ),
         );
-      } else if (state is HomeErrorState || state is ChangeFavouriteError) {
+      } else if (state is HomeErrorState) {
         return ErrorScreen(
             onPress: () => cubit
               ..getBannersList()

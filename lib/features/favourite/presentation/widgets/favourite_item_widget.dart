@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:refactor/core/utils/app_strings.dart';
+import 'package:refactor/features/favourite/domain/entities/favourite_product_entity.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 
-class FavouriteScreenContent extends StatelessWidget {
-  final int index;
+class FavouriteItemWidget extends StatelessWidget {
+  final FavouriteProductEntity favouriteProductEntity;
 
-  const FavouriteScreenContent({
+  const FavouriteItemWidget({
     super.key,
-    required this.index,
+    required this.favouriteProductEntity,
   });
 
   @override
   Widget build(BuildContext context) {
-    final cubit =
-        context.read<HomeCubit>().favourites[index].favouriteProductItem;
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: SizedBox(
         height: 120.0.h,
+        width: double.infinity,
         child: Row(
           children: [
             Stack(
@@ -29,12 +29,10 @@ class FavouriteScreenContent extends StatelessWidget {
                   width: 120.0.w,
                   height: 120.0.h,
                   child: Image(
-                    image: NetworkImage(cubit.image),
-
-                    // fit: BoxFit.cover,
+                    image: NetworkImage(favouriteProductEntity.image),
                   ),
                 ),
-                if (cubit.discount != 0)
+                if (favouriteProductEntity.discount != 0)
                   Container(
                     color: Colors.red,
                     padding: const EdgeInsets.symmetric(
@@ -59,7 +57,7 @@ class FavouriteScreenContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    cubit.name,
+                    favouriteProductEntity.name,
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -73,7 +71,7 @@ class FavouriteScreenContent extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '${cubit.price.round()} ${AppStrings.egp}',
+                            '${favouriteProductEntity.price.round()} ${AppStrings.egp}',
                             style: TextStyle(
                               fontSize: 12.0.sp,
                               color: Colors.blue,
@@ -82,9 +80,9 @@ class FavouriteScreenContent extends StatelessWidget {
                           SizedBox(
                             width: 5.0.w,
                           ),
-                          if (cubit.discount != 0)
+                          if (favouriteProductEntity.discount != 0)
                             Text(
-                              '${cubit.oldPrice.round()} ${AppStrings.egp}',
+                              '${favouriteProductEntity.oldPrice.round()} ${AppStrings.egp}',
                               style: TextStyle(
                                 fontSize: 10.0.sp,
                                 color: Colors.grey,
@@ -95,17 +93,17 @@ class FavouriteScreenContent extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          context
-                              .read<HomeCubit>()
-                              .changeFavouriteData(productId: cubit.id);
+                          // context
+                          //     .read<HomeCubit>()
+                          //     .changeFavouriteData(productId: cubit.id);
                         },
                         icon: CircleAvatar(
                           radius: 15.0,
-                          backgroundColor:
-                              (context.read<HomeCubit>().isFavorite[cubit.id] !=
-                                      null)
-                                  ? Colors.blue
-                                  : Colors.grey,
+                          backgroundColor: context
+                                  .read<HomeCubit>()
+                                  .isInFavorite(favouriteProductEntity.id)
+                              ? Colors.blue
+                              : Colors.grey,
                           child: const Icon(
                             Icons.favorite_border,
                             size: 18.0,

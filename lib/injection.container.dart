@@ -12,13 +12,15 @@ import 'package:refactor/features/auth/domain/repositories/auth_repository.dart'
 import 'package:refactor/features/auth/domain/usecases/user_login.dart';
 import 'package:refactor/features/auth/domain/usecases/user_register.dart';
 import 'package:refactor/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:refactor/features/favourite/data/datasources/favourite_remote_data_source.dart';
+import 'package:refactor/features/favourite/data/repositories/favourite_repository_impl.dart';
+import 'package:refactor/features/favourite/domain/repositories/favourite_repository.dart';
+import 'package:refactor/features/favourite/domain/usecases/get_favourites.dart';
 import 'package:refactor/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:refactor/features/home/data/repositories/home_repository_impl.dart';
 import 'package:refactor/features/home/domain/repositories/home_repository.dart';
-import 'package:refactor/features/home/domain/usecases/change_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_banners.dart';
 import 'package:refactor/features/home/domain/usecases/get_categories.dart';
-import 'package:refactor/features/home/domain/usecases/get_favourite.dart';
 import 'package:refactor/features/home/domain/usecases/get_products.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 import 'package:refactor/features/search/data/datasources/search_remote_data_source.dart';
@@ -50,8 +52,7 @@ Future<void> init() async {
         getBanners: sl(),
         getProducts: sl(),
         getCategories: sl(),
-        getFavourite: sl(),
-        changeFavourite: sl(),
+        getFavourites: sl(),
       ));
   // Home bloc
   sl.registerFactory(() => SearchCubit(searchProducts: sl()));
@@ -66,9 +67,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetBanners(homeRepository: sl()));
   sl.registerLazySingleton(() => GetProducts(homeRepository: sl()));
   sl.registerLazySingleton(() => GetCategories(homeRepository: sl()));
-  sl.registerLazySingleton(() => GetFavourite(homeRepository: sl()));
-  sl.registerLazySingleton(() => ChangeFavourite(homeRepository: sl()));
-
+  //favourite usecase
+  sl.registerLazySingleton(() => GetFavourites(favouriteRepository: sl()));
   //search usecase
   sl.registerLazySingleton(() => SearchProducts(searchRepository: sl()));
   //settings usecase
@@ -76,7 +76,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateUser(settingsRepository: sl()));
 
   //repository
-  //auth repositories
+  //auth repository
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImp(
         netWorkInfo: sl(),
         authRemoteDataSource: sl(),
@@ -86,6 +86,11 @@ Future<void> init() async {
   sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(
         netWorkInfo: sl(),
         homeRemoteDataSource: sl(),
+      ));
+  // Favourite repository
+  sl.registerLazySingleton<FavouriteRepository>(() => FavouriteRepositoryImpl(
+        favouriteRemoteDataSource: sl(),
+        netWorkInfo: sl(),
       ));
   //search repository
   sl.registerLazySingleton<SearchRepository>(() => SearchRepositoryImpl(
@@ -107,6 +112,9 @@ Future<void> init() async {
   //home data source
   sl.registerLazySingleton<HomeRemoteDataSource>(
       () => HomeRemoteDataSourceImpl(apiConsumer: sl()));
+  // favourite Data source
+  sl.registerLazySingleton<FavouriteRemoteDataSource>(
+      () => FavouriteRemoteDataSourceImpl(apiConsumer: sl()));
   //search data source
   sl.registerLazySingleton<SearchRemoteDataSource>(
       () => SearchRemoteDataSourceImpl(apiConsumer: sl()));

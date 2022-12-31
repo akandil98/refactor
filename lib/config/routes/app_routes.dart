@@ -49,12 +49,11 @@ class AppRoutes {
           builder: (context) => MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => di.sl<HomeCubit>()
-                  ..getBannersList()
-                  ..getCategoriesList()
-                  ..getProductsList()
-                  ..getFavouriteData(),
-              ),
+                  create: (context) => di.sl<HomeCubit>()
+                    ..getBannersList()
+                    ..getCategoriesList()
+                    ..getProductsList()
+                    ..getFavouriteItems()),
               BlocProvider(
                 create: (context) => di.sl<SettingsCubit>()..getUserData(),
               ),

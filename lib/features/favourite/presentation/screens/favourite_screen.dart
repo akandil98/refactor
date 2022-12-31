@@ -6,8 +6,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:refactor/core/utils/app_colors.dart';
 import 'package:refactor/core/utils/app_strings.dart';
 import 'package:refactor/core/widgets/error_screen.dart';
+import 'package:refactor/features/favourite/presentation/widgets/favourite_item_widget.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
-import 'package:refactor/features/home/presentation/widgets/favourites_screen_content.dart';
 
 class FavouritesScreen extends HookWidget {
   const FavouritesScreen({super.key});
@@ -25,11 +25,11 @@ class FavouritesScreen extends HookWidget {
             color: AppColors.hint,
           ),
         );
-      } else if (state is FavouriteError) {
+      } else if (state is HomeErrorState) {
         return ErrorScreen(
-            onPress: () => context.read<HomeCubit>().getFavouriteData());
+            onPress: () => context.read<HomeCubit>().getFavouriteItems());
       } else {
-        return (context.read<HomeCubit>().favourites.isEmpty)
+        return (context.read<HomeCubit>().favouriteItems.isEmpty)
             ? Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -46,10 +46,14 @@ class FavouritesScreen extends HookWidget {
                 ),
               )
             : ListView.separated(
-                itemBuilder: (context, index) =>
-                    FavouriteScreenContent(index: index),
+                itemBuilder: (context, index) => FavouriteItemWidget(
+                      favouriteProductEntity: context
+                          .read<HomeCubit>()
+                          .favouriteItems[index]
+                          .favouriteProductEntity,
+                    ),
                 separatorBuilder: (context, index) => const Divider(),
-                itemCount: context.read<HomeCubit>().favourites.length);
+                itemCount: context.read<HomeCubit>().favouriteItems.length);
       }
     });
   }
