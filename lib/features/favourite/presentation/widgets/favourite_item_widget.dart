@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:refactor/core/utils/app_strings.dart';
-import 'package:refactor/features/favourite/domain/entities/favourite_product_entity.dart';
+import 'package:refactor/features/favourite/domain/entities/favourite_entity.dart';
 import 'package:refactor/features/home/presentation/cubit/home_cubit.dart';
 
 class FavouriteItemWidget extends StatelessWidget {
@@ -93,15 +93,14 @@ class FavouriteItemWidget extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          // context
-                          //     .read<HomeCubit>()
-                          //     .changeFavouriteData(productId: cubit.id);
+                          context.read<HomeCubit>().changeFavouriteFun(
+                              productId: favouriteProductEntity.id);
                         },
                         icon: CircleAvatar(
                           radius: 15.0,
                           backgroundColor: context
                                   .read<HomeCubit>()
-                                  .isInFavorite(favouriteProductEntity.id)
+                                  .favouriteMap[favouriteProductEntity.id]!
                               ? Colors.blue
                               : Colors.grey,
                           child: const Icon(

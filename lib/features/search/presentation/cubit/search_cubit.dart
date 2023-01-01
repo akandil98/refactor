@@ -13,7 +13,6 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit({required this.searchProducts}) : super(SearchInitial());
 
   List<Datum> searchResult = [];
-
   Future<void> search({
     required String text,
   }) async {
@@ -25,7 +24,6 @@ class SearchCubit extends Cubit<SearchState> {
       (failure) => emit(SearchError(msg: mapFailureToMsg(failure))),
       (searchEntity) {
         searchResult = searchEntity.data.data;
-
         emit(SearchLoaded(searchEntity: searchEntity));
       },
     );

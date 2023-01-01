@@ -31,7 +31,8 @@ class HomeScreen extends HookWidget {
             onPress: () => cubit
               ..getBannersList()
               ..getCategoriesList()
-              ..getProductsList());
+              ..getProductsList()
+              ..getFavouriteItems());
       } else {
         return HomeScreenContent(
           banners: cubit.banners,

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:refactor/core/error/failures.dart';
 import 'package:refactor/core/usecases/usecase.dart';
 import 'package:refactor/features/favourite/domain/entities/favourite_entity.dart';
-import 'package:refactor/features/favourite/domain/entities/favourite_product_entity.dart';
+import 'package:refactor/features/favourite/domain/usecases/change_item_from_favourite.dart';
 import 'package:refactor/features/favourite/domain/usecases/get_favourites.dart';
 import 'package:refactor/features/home/domain/entities/banner_entity.dart';
 import 'package:refactor/features/home/domain/entities/category_entity.dart';
@@ -19,12 +19,14 @@ class HomeCubit extends Cubit<HomeState> {
   final GetProducts getProducts;
   final GetCategories getCategories;
   final GetFavourites getFavourites;
+  final ChangeFavourite changeFavourite;
 
   HomeCubit({
     required this.getBanners,
     required this.getProducts,
     required this.getCategories,
     required this.getFavourites,
+    required this.changeFavourite,
   }) : super(HomeInitialState());
 
   int currentIndex = 0;
@@ -36,7 +38,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   List<ProductEntity> products = [];
-
+  Map<int, bool> favouriteMap = {};
   Future<void> getProductsList() async {
     emit(HomeIsLoadingState());
     final response = await getProducts(NoParams());
@@ -45,6 +47,11 @@ class HomeCubit extends Cubit<HomeState> {
         .fold((failure) => emit(HomeErrorState(msg: mapFailureToMsg(failure))),
             (products) {
       this.products = products;
+      for (var element in products) {
+        favouriteMap.addAll({
+          element.id: element.inFavorites,
+        });
+      }
 
       emit(HomeGetProductsLoadedState());
     });
@@ -89,12 +96,32 @@ class HomeCubit extends Cubit<HomeState> {
         .fold((failure) => emit(HomeErrorState(msg: mapFailureToMsg(failure))),
             (products) {
       favouriteItems = products;
+
       emit(HomeGetFavoriteItemsLoadedState());
     });
   }
 
-  bool isInFavorite(int id) {
-    return favouriteItems
-        .any((element) => element.favouriteProductEntity.id == id);
+  // bool isInFavorite(int id) {
+  //   return favouriteItems
+  //       .any((element) => element.favouriteProductEntity.id == id);
+  // }
+
+  Future<void> changeFavouriteFun({required int productId}) async {
+    favouriteMap[productId] = !favouriteMap[productId]!;
+    emit(ChangeFavouriteLoadingState());
+
+    final response =
+        await changeFavourite(ChangeFavouriteParams(productId: productId));
+
+    response.fold(
+      (failure) {
+        favouriteMap[productId] = !favouriteMap[productId]!;
+        emit(ChangeFavouriteErrorState(msg: mapFailureToMsg(failure)));
+      },
+      (favouriteEntity) {
+        getFavouriteItems();
+        emit(ChangeFavouriteSuccessState());
+      },
+    );
   }
 }

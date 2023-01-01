@@ -87,29 +87,22 @@ class ProductWidget extends StatelessWidget {
                           ),
                       ],
                     ),
-                    BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        return IconButton(
-                          onPressed: () {
-                            //TODO change Favourite
-                            // cubit.changeFavouriteData(
-                            //     productId: productEntity.id);
-                          },
-                          icon: CircleAvatar(
-                            radius: 15.0.r,
-                            backgroundColor:
-                                cubit.isInFavorite(productEntity.id)
-                                    ? Colors.blue
-                                    : Colors.grey,
-                            child: const Icon(
-                              Icons.favorite_border,
-                              size: 18.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                        );
+                    IconButton(
+                      onPressed: () {
+                        cubit.changeFavouriteFun(productId: productEntity.id);
                       },
-                    ),
+                      icon: CircleAvatar(
+                        radius: 15.0.r,
+                        backgroundColor: cubit.favouriteMap[productEntity.id]!
+                            ? Colors.blue
+                            : Colors.grey,
+                        child: const Icon(
+                          Icons.favorite_border,
+                          size: 18.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ],

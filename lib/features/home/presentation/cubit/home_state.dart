@@ -31,3 +31,16 @@ class HomeGetProductsLoadedState extends HomeState {}
 class HomeGetCategoriesLoadedState extends HomeState {}
 
 class HomeGetFavoriteItemsLoadedState extends HomeState {}
+
+// change favourite states
+class ChangeFavouriteLoadingState extends HomeState {}
+
+class ChangeFavouriteSuccessState extends HomeState {}
+
+class ChangeFavouriteErrorState extends HomeState {
+  final String msg;
+
+  const ChangeFavouriteErrorState({required this.msg});
+  @override
+  List<Object> get props => [msg];
+}

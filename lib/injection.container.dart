@@ -15,6 +15,7 @@ import 'package:refactor/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:refactor/features/favourite/data/datasources/favourite_remote_data_source.dart';
 import 'package:refactor/features/favourite/data/repositories/favourite_repository_impl.dart';
 import 'package:refactor/features/favourite/domain/repositories/favourite_repository.dart';
+import 'package:refactor/features/favourite/domain/usecases/change_item_from_favourite.dart';
 import 'package:refactor/features/favourite/domain/usecases/get_favourites.dart';
 import 'package:refactor/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:refactor/features/home/data/repositories/home_repository_impl.dart';
@@ -53,6 +54,7 @@ Future<void> init() async {
         getProducts: sl(),
         getCategories: sl(),
         getFavourites: sl(),
+        changeFavourite: sl(),
       ));
   // Home bloc
   sl.registerFactory(() => SearchCubit(searchProducts: sl()));
@@ -69,6 +71,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetCategories(homeRepository: sl()));
   //favourite usecase
   sl.registerLazySingleton(() => GetFavourites(favouriteRepository: sl()));
+  sl.registerLazySingleton(() => ChangeFavourite(favouriteRepository: sl()));
   //search usecase
   sl.registerLazySingleton(() => SearchProducts(searchRepository: sl()));
   //settings usecase

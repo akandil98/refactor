@@ -6,11 +6,9 @@ import 'package:refactor/features/search/presentation/cubit/search_cubit.dart';
 
 class SearchScreenContent extends StatelessWidget {
   final int index;
-  bool isOldPrice;
-  SearchScreenContent({
+  const SearchScreenContent({
     super.key,
     required this.index,
-    this.isOldPrice = false,
   });
   @override
   Widget build(BuildContext context) {
@@ -24,27 +22,13 @@ class SearchScreenContent extends StatelessWidget {
             Stack(
               alignment: AlignmentDirectional.bottomStart,
               children: [
-                Image(
-                  image: NetworkImage(cubit.image),
-
+                SizedBox(
                   width: 120.0.w,
                   height: 120.0.h,
-                  // fit: BoxFit.cover,
-                ),
-                if (isOldPrice)
-                  Container(
-                    color: Colors.red,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 5.0,
-                    ),
-                    child: Text(
-                      AppStrings.discount,
-                      style: TextStyle(
-                        fontSize: 8.0.sp,
-                        color: Colors.white,
-                      ),
-                    ),
+                  child: Image(
+                    image: NetworkImage(cubit.image),
                   ),
+                ),
               ],
             ),
             SizedBox(
@@ -79,35 +63,8 @@ class SearchScreenContent extends StatelessWidget {
                           SizedBox(
                             width: 5.0.w,
                           ),
-                          if (isOldPrice)
-                            Text(
-                              AppStrings.egp,
-                              style: TextStyle(
-                                fontSize: 10.0.sp,
-                                color: Colors.grey,
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                            ),
                         ],
                       ),
-                      // IconButton(
-                      //   onPressed: () {
-                      //     //TODO fix error null check operator used on a null value
-                      //     // context
-                      //     //     .read<HomeCubit>()
-                      //     //     .changeFavouriteData(productId: productId);
-                      //   },
-                      //   icon: CircleAvatar(
-                      //     radius: 15.0,
-                      //     backgroundColor:
-                      //         cubit.inFavorites ? Colors.blue : Colors.grey,
-                      //     child: const Icon(
-                      //       Icons.favorite_border,
-                      //       size: 18.0,
-                      //       color: Colors.white,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ],
